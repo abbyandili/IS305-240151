@@ -16,4 +16,14 @@ Program: Dining Meal Booking Feature
   #quantity;
   #dietaryNote;
   #bookingStatus;
+
+  // Constructor receiving booking info
+  constructor(studentId, studentName, mealDate, mealType, quantity, dietaryNote) {
+    this.#studentId = studentId;
+    this.#studentName = studentName;
+    this.#mealDate = mealDate;
+    this.#mealType = mealType; // Fixed: Added this missing assignment
+    this.#quantity = quantity;
+    this.#dietaryNote = dietaryNote;
+    this.#bookingStatus = "Pending"; // Default status
  }
