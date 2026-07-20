@@ -55,6 +55,19 @@ Program: Dining Meal Booking Feature
     const baseMealPrice = 12.50; 
     return this.#quantity * baseMealPrice;
   }
-  
+
+  // GetSummary method used to compile and return the summary text
+  getSummary() {
+    return `
+=== Meal Booking Summary ===
+Status: [${this.#bookingStatus}]
+Student ID: ${this.#studentId}
+Name: ${this.#studentName}
+Date: ${this.#mealDate}
+Meal Type: ${this.#mealType}
+Quantity: ${this.#quantity}
+Dietary Note: ${this.#dietaryNote}
+============================`;
+  }
  }
 
