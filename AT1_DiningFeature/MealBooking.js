@@ -71,3 +71,6 @@ Dietary Note: ${this.#dietaryNote}
   }
  }
 
+ // Export the class
+module.exports = MealBooking;
+
