@@ -8,5 +8,12 @@ Program: Dining Meal Booking Feature
   */
 
  class MealBooking {
-    
+    // Private fields defined
+  #studentId;
+  #studentName;
+  #mealDate;
+  #mealType;
+  #quantity;
+  #dietaryNote;
+  #bookingStatus;
  }
