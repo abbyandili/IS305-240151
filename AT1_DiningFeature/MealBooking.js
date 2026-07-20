@@ -26,4 +26,28 @@ Program: Dining Meal Booking Feature
     this.#quantity = quantity;
     this.#dietaryNote = dietaryNote;
     this.#bookingStatus = "Pending"; // Default status
+ } 
+
+ // Getters and Setters (Moved out of the constructor)
+  get studentId() { return this.#studentId; }
+  set studentId(value) { this.#studentId = value; }
+
+  get studentName() { return this.#studentName; }
+  set studentName(value) { this.#studentName = value; }
+
+  get mealDate() { return this.#mealDate; }
+  set mealDate(value) { this.#mealDate = value; }
+
+  get mealType() { return this.#mealType; }
+  set mealType(value) { this.#mealType = value; }
+
+  get quantity() { return this.#quantity; }
+  set quantity(value) { if (value > 0) this.#quantity = value; }
+
+  get dietaryNote() { return this.#dietaryNote; }
+  set dietaryNote(value) { this.#dietaryNote = value; }
+
+  get bookingStatus() { return this.#bookingStatus; }
+  set bookingStatus(value) { this.#bookingStatus = value; }
  }
+
