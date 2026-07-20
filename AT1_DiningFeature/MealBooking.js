@@ -8,3 +8,5 @@ Program: Dining Meal Booking Feature
   */
 
  class MealBooking {
+    
+ }
