@@ -49,5 +49,12 @@ Program: Dining Meal Booking Feature
 
   get bookingStatus() { return this.#bookingStatus; }
   set bookingStatus(value) { this.#bookingStatus = value; }
+
+  // Calculate method used to calculate the total based on the structure
+  calculateTotal() {
+    const baseMealPrice = 12.50; 
+    return this.#quantity * baseMealPrice;
+  }
+  
  }
 
