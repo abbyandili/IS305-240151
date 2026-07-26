@@ -24,6 +24,8 @@ Program: Dining Meal Booking Feature
     "Dinner": 20.00
   };
 
+
+
   // Constructor receiving booking info
   constructor(studentId, studentName, mealDate, mealType, quantity, dietaryNote) {
     this.#studentId = studentId;
@@ -33,7 +35,31 @@ Program: Dining Meal Booking Feature
     this.#quantity = quantity;
     this.#dietaryNote = dietaryNote;
     this.#bookingStatus = "Pending"; // Default status
- } 
+ 
+
+ // Automatically trigger validation upon instantiation
+    this.validate();
+  }
+
+  // Validation Method
+  validate() {
+    if (!this.#studentId) {
+      throw new Error("Validation Error: Student ID cannot be missing or empty.");
+    }
+    if (!this.#studentName) {
+      throw new Error("Validation Error: Student Name cannot be missing or empty.");
+    }
+    if (!this.#mealDate) {
+      throw new Error("Validation Error: Meal Date cannot be missing or empty.");
+    }
+    if (!["Breakfast", "Lunch", "Dinner"].includes(this.#mealType)) {
+      throw new Error("Validation Error: Invalid meal type. Must be Breakfast, Lunch, or Dinner.");
+    }
+    if (isNaN(this.#quantity) || this.#quantity < 1) {
+      throw new Error("Validation Error: Quantity must be at least 1.");
+    }
+  }
+
 
  // Getters and Setters (Moved out of the constructor)
   get studentId() { return this.#studentId; }
@@ -57,6 +83,14 @@ Program: Dining Meal Booking Feature
   get bookingStatus() { return this.#bookingStatus; }
   set bookingStatus(value) { this.#bookingStatus = value; }
 
+  // State Management Methods
+  confirmBooking() {
+    this.#bookingStatus = "Confirmed";
+  }
+
+  cancelBooking() {
+    this.#bookingStatus = "Cancelled";
+  }
   // Calculate method used to calculate the total based on the structure
   calculateTotal() {
     const baseMealPrice = 12.50; 
