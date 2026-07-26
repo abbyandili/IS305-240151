@@ -92,9 +92,9 @@ Program: Dining Meal Booking Feature
     this.#bookingStatus = "Cancelled";
   }
   // Calculate method used to calculate the total based on the structure
-  calculateTotal() {
-    const baseMealPrice = 12.50; 
-    return this.#quantity * baseMealPrice;
+ calculateTotal() {
+    const pricePerMeal = MealBooking.MEAL_PRICES[this.#mealType] || 0;
+    return pricePerMeal * this.#quantity;
   }
 
   // GetSummary method used to compile and return the summary text
