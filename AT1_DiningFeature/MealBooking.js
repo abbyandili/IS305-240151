@@ -17,6 +17,13 @@ Program: Dining Meal Booking Feature
   #dietaryNote;
   #bookingStatus;
 
+  // Meal Price structure according to standard university dining baselines
+  static MEAL_PRICES = {
+    "Breakfast": 10.00,
+    "Lunch": 15.00,
+    "Dinner": 20.00
+  };
+
   // Constructor receiving booking info
   constructor(studentId, studentName, mealDate, mealType, quantity, dietaryNote) {
     this.#studentId = studentId;
