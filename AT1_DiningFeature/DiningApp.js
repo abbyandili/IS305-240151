@@ -6,6 +6,15 @@ const MealBooking = require('./MealBooking.js');
 // Runtime in-memory persistence array
 const bookingsDatabase = [];
 
+// Helper function to check for duplicates
+function isDuplicateBooking(studentId, mealDate, mealType) {
+  return bookingsDatabase.some(booking => 
+    booking.studentId.toLowerCase() === studentId.trim().toLowerCase() &&
+    booking.mealDate === mealDate.trim() &&
+    booking.mealType.toLowerCase() === mealType.trim().toLowerCase()
+  );
+}
+
 // Create a new MealBooking object instance
 const sampleBooking = new MealBooking(
   "STU98765",
