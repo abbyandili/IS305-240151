@@ -3,6 +3,9 @@ const { stdin: input, stdout: output } = require('process');
 // Import the MealBooking class
 const MealBooking = require('./MealBooking.js');
 
+// Runtime in-memory persistence array
+const bookingsDatabase = [];
+
 // Create a new MealBooking object instance
 const sampleBooking = new MealBooking(
   "STU98765",
