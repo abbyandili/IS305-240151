@@ -21,4 +21,4 @@ A Node.js console application for managing student dining hall meal bookings. Th
 1. Open your terminal or command prompt interface.
 2. Navigate directly to the folder containing your program files:
    ```bash
-   cd path/to/your/project-folder
+   IS305-240151/AT1_DiningFeature
