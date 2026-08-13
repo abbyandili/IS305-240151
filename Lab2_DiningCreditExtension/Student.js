@@ -55,3 +55,23 @@ constructor(studentId, firstName, lastName) {
     }
     this.#lastName = value.trim();
   }
+
+  // --- Methods ---
+
+  // Return full name combined
+  getFullName() {
+    return `${this.#firstName} ${this.#lastName}`;
+  }
+
+  // Return formatted display block
+  displayInfo() {
+    return `
+========================================
+           STUDENT DETAILS
+========================================
+Student ID: ${this.#studentId}
+Student Name: ${this.getFullName()}
+========================================`;
+  }
+
+module.exports = Student;
