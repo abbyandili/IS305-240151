@@ -20,3 +20,38 @@ constructor(studentId, firstName, lastName) {
     this.lastName = lastName;
 }
 }
+
+// --- Getters & Setters ---
+  
+  get studentId() {
+    return this.#studentId;
+  }
+
+  set studentId(value) {
+    if (!value || value.trim() === "") {
+      throw new Error("Validation Error: Student ID cannot be empty.");
+    }
+    this.#studentId = value.trim();
+  }
+
+  get firstName() {
+    return this.#firstName;
+  }
+
+  set firstName(value) {
+    if (!value || value.trim() === "") {
+      throw new Error("Validation Error: First name cannot be empty.");
+    }
+    this.#firstName = value.trim();
+  }
+
+  get lastName() {
+    return this.#lastName;
+  }
+
+  set lastName(value) {
+    if (!value || value.trim() === "") {
+      throw new Error("Validation Error: Last name cannot be empty.");
+    }
+    this.#lastName = value.trim();
+  }
