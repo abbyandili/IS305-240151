@@ -1,10 +1,10 @@
 /*
-  Program: Dining Meal Booking Feature (Lab 2 Main Application)
-  Student Name: Abigail Andili
+  Program: Dining Meal Booking Feature - Main Application
+  Student Name: Abigail ANDILI
   Student ID: 240151
-  Date: 13 August 2026
-  Description: Complete application orchestrating Student setup, automated unit tests,
-               dynamic state mutations, and interactive meal booking inputs.
+  Date: 14 August 2026
+  Description: Console driver featuring object integration, duplicate checking,
+               booking history display, and reference mutation demonstrations.
 */
 
 const readline = require('readline/promises');
@@ -12,85 +12,164 @@ const { stdin: input, stdout: output } = require('process');
 const Student = require('./Student.js');
 const MealBooking = require('./MealBooking.js');
 
-// Runtime in-memory persistence array
+// Runtime in-memory storage array
 const bookingsDatabase = [];
 
-// Helper function to check for duplicates
+// Check duplicates using connected Student object's ID
 function isDuplicateBooking(studentId, mealDate, mealType) {
   if (!studentId || !mealDate || !mealType) return false;
 
   return bookingsDatabase.some(booking => 
-    booking.studentId.toLowerCase() === studentId.trim().toLowerCase() &&
+    booking.student.studentId.toLowerCase() === studentId.trim().toLowerCase() &&
     booking.mealDate === mealDate.trim() &&
     booking.mealType.toLowerCase() === mealType.trim().toLowerCase()
   );
 }
 
-// Task 1: Interactive Student Registration
-async function runStudentSetup() {
-  const rl = readline.createInterface({ input, output });
-
-  try {
-    console.log("\n========================================");
-    console.log("       DWU STUDENT REGISTRATION");
-    console.log("========================================");
-
-    const idInput = await rl.question("Enter Student ID: ");
-    const firstNameInput = await rl.question("Enter First Name: ");
-    const lastNameInput = await rl.question("Enter Last Name: ");
-
-    // Instantiates Student object (triggers setters and validation)
-    const currentStudent = new Student(idInput, firstNameInput, lastNameInput);
-
-    console.log(currentStudent.displayInfo());
-    return currentStudent;
-
-  } catch (error) {
-    console.log(`\n[ERROR]: ${error.message}`);
-    return null;
-  } finally {
-    rl.close();
+// Task 3: Student Booking History Function
+function displayBookingHistory(student, bookingArray) {
+  if (!student || !(student instanceof Student)) {
+    console.log("[ERROR]: Invalid Student object passed to displayBookingHistory.");
+    return;
   }
+
+  // Filter bookings belonging to this student
+  const studentBookings = bookingArray.filter(
+    booking => booking.student.studentId === student.studentId
+  );
+
+  console.log(student.displayInfo());
+
+  console.log("========================================");
+  console.log("            BOOKING HISTORY");
+  console.log("========================================");
+
+  if (studentBookings.length === 0) {
+    console.log("No bookings found for this student.");
+    console.log("========================================");
+    return;
+  }
+
+  let combinedCost = 0;
+
+  studentBookings.forEach((booking, index) => {
+    const cost = booking.calculateTotal();
+    combinedCost += cost;
+
+    console.log(`${index + 1}. ${booking.mealType} - ${booking.mealDate}`);
+    console.log(`   Quantity: ${booking.quantity}`);
+    console.log(`   Status: ${booking.bookingStatus}`);
+    console.log(`   Cost: K${cost.toFixed(2)}\n`);
+  });
+
+  console.log(`Total Bookings: ${studentBookings.length}`);
+  console.log(`Combined Cost: K${combinedCost.toFixed(2)}`);
+  console.log("========================================\n");
 }
 
-// Task 2: Interactive Meal Booking Registration
-async function runInteractiveBooking() {
-  const rl = readline.createInterface({ input, output });
-  
+// Automated Test Suite for Credit Requirements
+function runRequiredCreditTests() {
   console.log("\n========================================");
-  console.log("       DWU DINING MEAL BOOKING");
+  console.log("   RUNNING REQUIRED CREDIT-LEVEL TESTS");
+  console.log("========================================");
+
+  // TEST 1: Valid Student Object Creation
+  console.log("\n[TEST 1] Valid Student Object Creation...");
+  let maria;
+  try {
+    maria = new Student("DWU2026001", "Maria", "Kila");
+    console.log("Result: Success!");
+    console.log(maria.displayInfo());
+  } catch (e) {
+    console.log(`Result: Failed -> ${e.message}`);
+  }
+
+  // TEST 2: Invalid Student Information Rejection
+  console.log("[TEST 2] Rejecting Invalid Student Info (Empty Name)...");
+  try {
+    const invalidStudent = new Student("DWU2026002", "", "Kila");
+  } catch (e) {
+    console.log(`Result: Success! Caught validation error -> "${e.message}"`);
+  }
+
+  // TEST 3: Student and Meal Booking Integration
+  console.log("\n[TEST 3] Integrating Student object into MealBooking...");
+  let booking1, booking2;
+  try {
+    booking1 = new MealBooking(maria, "12 August 2026", "Lunch", 2, "No peanuts");
+    booking1.confirmBooking();
+    bookingsDatabase.push(booking1);
+
+    booking2 = new MealBooking(maria, "13 August 2026", "Dinner", 1, "None");
+    bookingsDatabase.push(booking2);
+
+    console.log("Result: Success! Receipt pulls student name via object reference:");
+    console.log(booking1.getSummary());
+  } catch (e) {
+    console.log(`Result: Failed -> ${e.message}`);
+  }
+
+  // TEST 4: Booking History Display
+  console.log("[TEST 4] Displaying Student Booking History...");
+  displayBookingHistory(maria, bookingsDatabase);
+
+  // TEST 5: Controlled Student Name Update (Reflected across shared references)
+  console.log("[TEST 5] Updating Student's Last Name and Verifying Shared Reference...");
+  console.log("Updating Maria's last name from 'Kila' to 'Kila-Vele'...");
+  maria.lastName = "Kila-Vele";
+
+  console.log("\nRe-printing Booking Receipt (Shows updated name automatically):");
+  console.log(booking1.getSummary());
+
+  console.log("--- TEST SUITE COMPLETE ---\n");
+}
+
+// Interactive Task 2 Workflow
+async function runInteractiveWorkflow() {
+  const rl = readline.createInterface({ input, output });
+
+  console.log("========================================");
+  console.log("    INTERACTIVE BOOKING WORKFLOW");
   console.log("========================================");
 
   try {
+    // 1. Collect Student Details & Create Student Object
+    console.log("--- Step 1: Student Registration ---");
     const studentId = await rl.question("Student ID: ");
-    const studentName = await rl.question("Student name: ");
-    const mealDate = await rl.question("Meal date (YYYY-MM-DD): ");
-    const mealType = await rl.question("Meal type (Breakfast/Lunch/Dinner): ");
-    const quantityStr = await rl.question("Quantity: ");
-    const dietaryNote = await rl.question("Dietary note: ");
+    const firstName = await rl.question("First Name: ");
+    const lastName = await rl.question("Last Name: ");
 
-    // Duplicate Check prior to instantiating
-    if (isDuplicateBooking(studentId, mealDate, mealType)) {
-      throw new Error(`Duplicate Error: A booking for Student ${studentId} on ${mealDate} for ${mealType} already exists.`);
+    const studentObj = new Student(studentId, firstName, lastName);
+
+    // 2. Collect Meal Details & Create Connected MealBooking
+    console.log("\n--- Step 2: Meal Booking Details ---");
+    const mealDate = await rl.question("Meal Date (e.g., 2026-08-15): ");
+    const mealType = await rl.question("Meal Type (Breakfast/Lunch/Dinner): ");
+    const quantityStr = await rl.question("Quantity: ");
+    const dietaryNote = await rl.question("Dietary Note: ");
+
+    if (isDuplicateBooking(studentObj.studentId, mealDate, mealType)) {
+      throw new Error(`Duplicate Error: Booking already exists for ${studentObj.studentId} on ${mealDate} for ${mealType}.`);
     }
 
-    // Instantiation (Triggers internal validation)
     const newBooking = new MealBooking(
-      studentId, 
-      studentName, 
-      mealDate, 
-      mealType, 
-      parseInt(quantityStr, 10), 
+      studentObj,
+      mealDate,
+      mealType,
+      parseInt(quantityStr, 10),
       dietaryNote
     );
 
-    // Save item in database array
+    // 3. Store in array & display integrated output
     bookingsDatabase.push(newBooking);
 
     console.log("\n========================================");
-    console.log("          BOOKING CREATED");
+    console.log("       INTEGRATED BOOKING CREATED");
     console.log("========================================");
     console.log(newBooking.getSummary());
+
+    // 4. Display complete history for the newly created student
+    displayBookingHistory(studentObj, bookingsDatabase);
 
   } catch (error) {
     console.log(`\n[ERROR]: ${error.message}`);
@@ -99,87 +178,13 @@ async function runInteractiveBooking() {
   }
 }
 
-// Automated Execution Testing Engine
-function runRequiredTests() {
-  console.log("\n--- EXECUTING AUTOMATED REQUIREMENT TEST SUITE ---");
-
-  // TEST 1: Valid Booking Demonstration
-  console.log("\n[TEST 1] Creating a completely valid booking...");
-  try {
-    const booking1 = new MealBooking("DWU2026001", "Maria Kila", "2026-07-18", "Lunch", 2, "No peanuts");
-    bookingsDatabase.push(booking1);
-    console.log("Result: Success!");
-    console.log(booking1.getSummary());
-  } catch (e) {
-    console.log(`Result: Failed unexpectedly -> ${e.message}`);
-  }
-
-  // TEST 2: Invalid Booking Demonstration
-  console.log("\n[TEST 2] Attempting to create an invalid booking (Missing Student Name & Bad Meal Type)...");
-  try {
-    const booking2 = new MealBooking("DWU2026002", "", "2026-07-18", "MidnightSnack", 0, "None");
-    bookingsDatabase.push(booking2);
-  } catch (e) {
-    console.log(`Result: Caught anticipated validation crash -> "${e.message}"`);
-  }
-
-  // TEST 3: Duplicate Booking Prevention
-  console.log("\n[TEST 3] Testing duplicate protection against Maria Kila's initial lunch configuration...");
-  const targetId = "DWU2026001";
-  const targetDate = "2026-07-18";
-  const targetType = "Lunch";
-
-  if (isDuplicateBooking(targetId, targetDate, targetType)) {
-    console.log(`Result: Success! Blocked duplicate profile match entry dynamically for [${targetId}, ${targetDate}, ${targetType}].`);
-  } else {
-    console.log("Result: Failure. Duplicate element allowed inside data system context window.");
-  }
-  
-  console.log("\n--- TEST SUITE COMPLETE ---\n");
-}
-
-// Single Instance Setter & Getter Demonstration
-function runSampleBookingDemo() {
-  console.log("\n--- DEMONSTRATING SETTERS & DYNAMIC STATE UPDATES ---");
-  try {
-    const sampleBooking = new MealBooking(
-      "STU98765",
-      "Alex Morgan",
-      "2026-07-20",
-      "Dinner",
-      3,
-      "Gluten-Free preference"
-    );
-
-    console.log(sampleBooking.getSummary());
-    console.log(`Calculated Total: K${sampleBooking.calculateTotal().toFixed(2)}`);
-
-    // Modify state using setters
-    sampleBooking.bookingStatus = "Confirmed";
-    sampleBooking.quantity = 4;
-
-    console.log("\n...Updating Booking Details...");
-    console.log(sampleBooking.getSummary());
-    console.log(`Updated Calculated Total: K${sampleBooking.calculateTotal().toFixed(2)}`);
-  } catch (e) {
-    console.log(`Demo Failed -> ${e.message}`);
-  }
-}
-
-// Orchestrator initialization block
+// Program Execution
 async function main() {
-  // 1. Run Lab 2 Student Setup first
-  await runStudentSetup();
+  // Run credit level tests demonstrating required scenarios
+  runRequiredCreditTests();
 
-  // 2. Run automated verification test suite
-  runRequiredTests();
-
-  // 3. Demonstrate property mutators and calculation updates
-  runSampleBookingDemo();
-
-  // 4. Launch interactive meal booking console menu
-  await runInteractiveBooking();
+  // Launch interactive CLI workflow
+  await runInteractiveWorkflow();
 }
 
-// Execute complete program flow
 main();

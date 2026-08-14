@@ -1,56 +1,45 @@
 /*
-Program: Dining Meal Booking Feature
-  Student Name: Abigail ANDILI
-  Student ID: 240151
-  Date: 20 July 2026
-  Description: A JavaScript program demonstrating classes,
-  objects, constructors, private fields and methods.
-  */
+  Program: Dining Meal Booking Feature - MealBooking Class
+  Student Name: Your Name
+  Student ID: Your Student ID
+  Date: 14 August 2026
+  Description: Refactored MealBooking class accepting a Student object reference.
+*/
 
- class MealBooking {
-    // Private fields defined
-  #studentId;
-  #studentName;
+const Student = require('./Student.js');
+
+class MealBooking {
+  #student; // Stores reference to Student object
   #mealDate;
   #mealType;
   #quantity;
   #dietaryNote;
   #bookingStatus;
 
-  // Meal Price structure according to standard university dining baselines
   static MEAL_PRICES = {
     "Breakfast": 10.00,
     "Lunch": 15.00,
     "Dinner": 20.00
   };
 
+  constructor(student, mealDate, mealType, quantity, dietaryNote = "None") {
+    this.#student = student;
+    this.#mealDate = mealDate?.trim();
+    this.#mealType = mealType?.trim();
+    this.#quantity = parseInt(quantity, 10);
+    this.#dietaryNote = dietaryNote?.trim() || "None";
+    this.#bookingStatus = "Pending";
 
-
-  // Constructor receiving booking info
-  constructor(studentId, studentName, mealDate, mealType, quantity, dietaryNote) {
-    this.#studentId = studentId;
-    this.#studentName = studentName;
-    this.#mealDate = mealDate;
-    this.#mealType = mealType; // Fixed: Added this missing assignment
-    this.#quantity = quantity;
-    this.#dietaryNote = dietaryNote;
-    this.#bookingStatus = "Pending"; // Default status
- 
-
- // Automatically trigger validation upon instantiation
     this.validate();
   }
 
-  // Validation Method
+  // Validation Routine
   validate() {
-    if (!this.#studentId) {
-      throw new Error("Validation Error: Student ID cannot be missing or empty.");
-    }
-    if (!this.#studentName) {
-      throw new Error("Validation Error: Student Name cannot be missing or empty.");
+    if (!this.#student || !(this.#student instanceof Student)) {
+      throw new Error("Validation Error: A valid Student object reference must be provided.");
     }
     if (!this.#mealDate) {
-      throw new Error("Validation Error: Meal Date cannot be missing or empty.");
+      throw new Error("Validation Error: Meal date cannot be missing or empty.");
     }
     if (!["Breakfast", "Lunch", "Dinner"].includes(this.#mealType)) {
       throw new Error("Validation Error: Invalid meal type. Must be Breakfast, Lunch, or Dinner.");
@@ -60,30 +49,14 @@ Program: Dining Meal Booking Feature
     }
   }
 
-
- // Getters and Setters (Moved out of the constructor)
-  get studentId() { return this.#studentId; }
-  set studentId(value) { this.#studentId = value; }
-
-  get studentName() { return this.#studentName; }
-  set studentName(value) { this.#studentName = value; }
-
+  // Getters & Setters
+  get student() { return this.#student; }
   get mealDate() { return this.#mealDate; }
-  set mealDate(value) { this.#mealDate = value; }
-
   get mealType() { return this.#mealType; }
-  set mealType(value) { this.#mealType = value; }
-
   get quantity() { return this.#quantity; }
-  set quantity(value) { if (value > 0) this.#quantity = value; }
-
   get dietaryNote() { return this.#dietaryNote; }
-  set dietaryNote(value) { this.#dietaryNote = value; }
-
   get bookingStatus() { return this.#bookingStatus; }
-  set bookingStatus(value) { this.#bookingStatus = value; }
 
-  // State Management Methods
   confirmBooking() {
     this.#bookingStatus = "Confirmed";
   }
@@ -91,28 +64,26 @@ Program: Dining Meal Booking Feature
   cancelBooking() {
     this.#bookingStatus = "Cancelled";
   }
-  // Calculate method used to calculate the total based on the structure
- calculateTotal() {
+
+  calculateTotal() {
     const pricePerMeal = MealBooking.MEAL_PRICES[this.#mealType] || 0;
     return pricePerMeal * this.#quantity;
   }
 
-  // GetSummary method used to compile and return the summary text
+  // Obtains student identity directly from connected Student object
   getSummary() {
     return `
-=== Meal Booking Summary ===
-Status: [${this.#bookingStatus}]
-Student ID: ${this.#studentId}
-Name: ${this.#studentName}
+========================================
+            BOOKING RECEIPT
+========================================
+Student: ${this.#student.getFullName()} (${this.#student.studentId})
+Meal: ${this.#mealType} x ${this.#quantity}
 Date: ${this.#mealDate}
-Meal Type: ${this.#mealType}
-Quantity: ${this.#quantity}
-Dietary Note: ${this.#dietaryNote}
-============================`;
+Dietary note: ${this.#dietaryNote}
+Status: ${this.#bookingStatus}
+Total cost: K${this.calculateTotal().toFixed(2)}
+========================================`;
   }
- }
+}
 
- // Export the class
 module.exports = MealBooking;
-
-

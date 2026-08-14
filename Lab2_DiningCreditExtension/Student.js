@@ -1,20 +1,17 @@
 /*
-  Program: Dining Meal Booking Feature - Student Module
-  Student Name: Abigail ANDILI
-  Student ID: 240151
+  Program: Dining Meal Booking Feature - Student Class
+  Student Name: Your Name
+  Student ID: Your Student ID
   Date: 14 August 2026
-  Description: Student class demonstrating private fields, accessors with 
-               validation, and display methods.
+  Description: Class holding student identity details with accessors and validation.
 */
 
 class Student {
-  // Declare private fields
   #studentId;
   #firstName;
   #lastName;
 
   constructor(studentId, firstName, lastName) {
-    // Leverage setters to apply validation during instantiation
     this.studentId = studentId;
     this.firstName = firstName;
     this.lastName = lastName;
@@ -27,11 +24,10 @@ class Student {
   }
 
   set studentId(value) {
-    const val = String(value ?? "").trim();
-    if (!val) {
+    if (!value || value.trim() === "") {
       throw new Error("Validation Error: Student ID cannot be empty.");
     }
-    this.#studentId = val;
+    this.#studentId = value.trim();
   }
 
   get firstName() {
@@ -39,11 +35,10 @@ class Student {
   }
 
   set firstName(value) {
-    const val = String(value ?? "").trim();
-    if (!val) {
+    if (!value || value.trim() === "") {
       throw new Error("Validation Error: First name cannot be empty.");
     }
-    this.#firstName = val;
+    this.#firstName = value.trim();
   }
 
   get lastName() {
@@ -51,25 +46,22 @@ class Student {
   }
 
   set lastName(value) {
-    const val = String(value ?? "").trim();
-    if (!val) {
+    if (!value || value.trim() === "") {
       throw new Error("Validation Error: Last name cannot be empty.");
     }
-    this.#lastName = val;
+    this.#lastName = value.trim();
   }
 
   // --- Methods ---
 
-  // Return full name combined
   getFullName() {
     return `${this.#firstName} ${this.#lastName}`;
   }
 
-  // Return formatted display block
   displayInfo() {
     return `
 ========================================
-           STUDENT DETAILS
+          STUDENT INFORMATION
 ========================================
 Student ID: ${this.#studentId}
 Student Name: ${this.getFullName()}
