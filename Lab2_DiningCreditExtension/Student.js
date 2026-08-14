@@ -13,25 +13,25 @@ class Student {
   #firstName;
   #lastName;
 
-constructor(studentId, firstName, lastName) {
+  constructor(studentId, firstName, lastName) {
     // Leverage setters to apply validation during instantiation
     this.studentId = studentId;
     this.firstName = firstName;
     this.lastName = lastName;
-}
-}
+  }
 
-// --- Getters & Setters ---
-  
+  // --- Getters & Setters ---
+
   get studentId() {
     return this.#studentId;
   }
 
   set studentId(value) {
-    if (!value || value.trim() === "") {
+    const val = String(value ?? "").trim();
+    if (!val) {
       throw new Error("Validation Error: Student ID cannot be empty.");
     }
-    this.#studentId = value.trim();
+    this.#studentId = val;
   }
 
   get firstName() {
@@ -39,10 +39,11 @@ constructor(studentId, firstName, lastName) {
   }
 
   set firstName(value) {
-    if (!value || value.trim() === "") {
+    const val = String(value ?? "").trim();
+    if (!val) {
       throw new Error("Validation Error: First name cannot be empty.");
     }
-    this.#firstName = value.trim();
+    this.#firstName = val;
   }
 
   get lastName() {
@@ -50,10 +51,11 @@ constructor(studentId, firstName, lastName) {
   }
 
   set lastName(value) {
-    if (!value || value.trim() === "") {
+    const val = String(value ?? "").trim();
+    if (!val) {
       throw new Error("Validation Error: Last name cannot be empty.");
     }
-    this.#lastName = value.trim();
+    this.#lastName = val;
   }
 
   // --- Methods ---
@@ -73,5 +75,6 @@ Student ID: ${this.#studentId}
 Student Name: ${this.getFullName()}
 ========================================`;
   }
+}
 
 module.exports = Student;
