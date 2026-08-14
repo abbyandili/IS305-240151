@@ -1,6 +1,15 @@
+/*
+  Program: Dining Meal Booking Feature (Lab 2 Main Application)
+  Student Name: Abigail Andili
+  Student ID: 240151
+  Date: 13 August 2026
+  Description: Complete application orchestrating Student setup, automated unit tests,
+               dynamic state mutations, and interactive meal booking inputs.
+*/
+
 const readline = require('readline/promises');
 const { stdin: input, stdout: output } = require('process');
-// Import the MealBooking class
+const Student = require('./Student.js');
 const MealBooking = require('./MealBooking.js');
 
 // Runtime in-memory persistence array
@@ -17,7 +26,34 @@ function isDuplicateBooking(studentId, mealDate, mealType) {
   );
 }
 
-// Interactive user registration sequence
+// Task 1: Interactive Student Registration
+async function runStudentSetup() {
+  const rl = readline.createInterface({ input, output });
+
+  try {
+    console.log("\n========================================");
+    console.log("       DWU STUDENT REGISTRATION");
+    console.log("========================================");
+
+    const idInput = await rl.question("Enter Student ID: ");
+    const firstNameInput = await rl.question("Enter First Name: ");
+    const lastNameInput = await rl.question("Enter Last Name: ");
+
+    // Instantiates Student object (triggers setters and validation)
+    const currentStudent = new Student(idInput, firstNameInput, lastNameInput);
+
+    console.log(currentStudent.displayInfo());
+    return currentStudent;
+
+  } catch (error) {
+    console.log(`\n[ERROR]: ${error.message}`);
+    return null;
+  } finally {
+    rl.close();
+  }
+}
+
+// Task 2: Interactive Meal Booking Registration
 async function runInteractiveBooking() {
   const rl = readline.createInterface({ input, output });
   
@@ -38,7 +74,7 @@ async function runInteractiveBooking() {
       throw new Error(`Duplicate Error: A booking for Student ${studentId} on ${mealDate} for ${mealType} already exists.`);
     }
 
-    // Instantiation (Triggers class internal structural validation)
+    // Instantiation (Triggers internal validation)
     const newBooking = new MealBooking(
       studentId, 
       studentName, 
@@ -78,7 +114,7 @@ function runRequiredTests() {
     console.log(`Result: Failed unexpectedly -> ${e.message}`);
   }
 
-  // TEST 2: Invalid Booking Demonstration (Missing IDs / Broken fields)
+  // TEST 2: Invalid Booking Demonstration
   console.log("\n[TEST 2] Attempting to create an invalid booking (Missing Student Name & Bad Meal Type)...");
   try {
     const booking2 = new MealBooking("DWU2026002", "", "2026-07-18", "MidnightSnack", 0, "None");
@@ -106,7 +142,6 @@ function runRequiredTests() {
 function runSampleBookingDemo() {
   console.log("\n--- DEMONSTRATING SETTERS & DYNAMIC STATE UPDATES ---");
   try {
-    // Corrected mealType from "Dinner (Premium Buffet)" to "Dinner" so validation passes
     const sampleBooking = new MealBooking(
       "STU98765",
       "Alex Morgan",
@@ -116,19 +151,16 @@ function runSampleBookingDemo() {
       "Gluten-Free preference"
     );
 
-    // Display initial state summary and calculated total
     console.log(sampleBooking.getSummary());
-    console.log(`Calculated Total: $${sampleBooking.calculateTotal().toFixed(2)}`);
+    console.log(`Calculated Total: K${sampleBooking.calculateTotal().toFixed(2)}`);
 
-    // Safely modify states using setters to show dynamic capabilities
+    // Modify state using setters
     sampleBooking.bookingStatus = "Confirmed";
-    sampleBooking.quantity = 4; // Update quantity
+    sampleBooking.quantity = 4;
 
     console.log("\n...Updating Booking Details...");
-
-    // Re-display updated state summary and new total
     console.log(sampleBooking.getSummary());
-    console.log(`Updated Calculated Total: $${sampleBooking.calculateTotal().toFixed(2)}`);
+    console.log(`Updated Calculated Total: K${sampleBooking.calculateTotal().toFixed(2)}`);
   } catch (e) {
     console.log(`Demo Failed -> ${e.message}`);
   }
@@ -136,14 +168,18 @@ function runSampleBookingDemo() {
 
 // Orchestrator initialization block
 async function main() {
-  // First demonstrate constraints logic using programmatic test parameters
+  // 1. Run Lab 2 Student Setup first
+  await runStudentSetup();
+
+  // 2. Run automated verification test suite
   runRequiredTests();
 
-  // Demonstrate property getters, setters, and calculation updates
+  // 3. Demonstrate property mutators and calculation updates
   runSampleBookingDemo();
 
-  // Next switch application context control frame to runtime user prompt loop mode
+  // 4. Launch interactive meal booking console menu
   await runInteractiveBooking();
 }
 
+// Execute complete program flow
 main();
