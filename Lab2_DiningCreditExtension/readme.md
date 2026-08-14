@@ -3,9 +3,15 @@
 ## Author Information
 * **Student Name:** Abigail ANDILI
 * **Student ID:** 240151
-* **GitHub Repository URL:** https://github.com/YourUsername/Your-IS305-Repo-Name
-
+* **GitHub Repository URL:** https://github.com/abbyandili/IS305-240151.git
 ---
+
+## Approved Use of AI Tools
+AI assistance from **Gemini (Google AI)** was utilized in accordance with academic integrity guidelines for the following specific tasks:
+* **Terminal Output & UI Formatting:** Formatting ASCII table borders, padding, and layout alignments to match assignment screenshot specifications.
+* **Code Debugging & Refactoring:** Resolving asynchronous `readline/promises` CLI flow issues, fixing string non-breaking space syntax errors, and refactoring object relationships.
+* **Documentation & Commit Structure:** Assisting in structuring clean Git commit history messages and drafting clear README documentation. 
+
 
 ## Extension Overview: How Lab 2 Extends Lab 1
 Lab 1 implemented a basic meal booking system where each `MealBooking` object directly stored student identity details as standalone string attributes (`studentId` and `studentName`). 
