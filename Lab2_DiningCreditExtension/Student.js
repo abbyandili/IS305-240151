@@ -1,7 +1,7 @@
 /*
   Program: Dining Meal Booking Feature - Student Class
-  Student Name: Your Name
-  Student ID: Your Student ID
+  Student Name: Abigail ANDILI
+  Student ID: 240151
   Date: 14 August 2026
   Description: Class holding student identity details with accessors and validation.
 */
@@ -59,13 +59,11 @@ class Student {
   }
 
   displayInfo() {
-    return `
-========================================
+    return `========================================
           STUDENT INFORMATION
 ========================================
 Student ID: ${this.#studentId}
-Student Name: ${this.getFullName()}
-========================================`;
+Student Name: ${this.getFullName()}`;
   }
 }
 
