@@ -26,7 +26,7 @@ function isDuplicateBooking(studentId, mealDate, mealType) {
   );
 }
 
-// Task 3: Student Booking History Function
+// Task 3: Student Booking History Function (Formatted to match example image)
 function displayBookingHistory(student, bookingArray) {
   if (!student || !(student instanceof Student)) {
     console.log("[ERROR]: Invalid Student object passed to displayBookingHistory.");
@@ -38,9 +38,10 @@ function displayBookingHistory(student, bookingArray) {
     booking => booking.student.studentId === student.studentId
   );
 
+  // Display Student Details
   console.log(student.displayInfo());
 
-  console.log("========================================");
+  console.log("\n========================================");
   console.log("            BOOKING HISTORY");
   console.log("========================================");
 
@@ -56,15 +57,15 @@ function displayBookingHistory(student, bookingArray) {
     const cost = booking.calculateTotal();
     combinedCost += cost;
 
-    console.log(`${index + 1}. ${booking.mealType} - ${booking.mealDate}`);
+    console.log(`\n${index + 1}. ${booking.mealType} - ${booking.mealDate}`);
     console.log(`   Quantity: ${booking.quantity}`);
     console.log(`   Status: ${booking.bookingStatus}`);
-    console.log(`   Cost: K${cost.toFixed(2)}\n`);
+    console.log(`   Cost: K${cost.toFixed(2)}`);
   });
 
-  console.log(`Total Bookings: ${studentBookings.length}`);
+  console.log(`\nTotal Bookings: ${studentBookings.length}`);
   console.log(`Combined Cost: K${combinedCost.toFixed(2)}`);
-  console.log("========================================\n");
+  console.log("========================================");
 }
 
 // Automated Test Suite for Credit Requirements
@@ -85,7 +86,7 @@ function runRequiredCreditTests() {
   }
 
   // TEST 2: Invalid Student Information Rejection
-  console.log("[TEST 2] Rejecting Invalid Student Info (Empty Name)...");
+  console.log("\n[TEST 2] Rejecting Invalid Student Info (Empty Name)...");
   try {
     const invalidStudent = new Student("DWU2026002", "", "Kila");
   } catch (e) {
@@ -110,11 +111,11 @@ function runRequiredCreditTests() {
   }
 
   // TEST 4: Booking History Display
-  console.log("[TEST 4] Displaying Student Booking History...");
+  console.log("\n[TEST 4] Displaying Student Booking History...");
   displayBookingHistory(maria, bookingsDatabase);
 
   // TEST 5: Controlled Student Name Update (Reflected across shared references)
-  console.log("[TEST 5] Updating Student's Last Name and Verifying Shared Reference...");
+  console.log("\n[TEST 5] Updating Student's Last Name and Verifying Shared Reference...");
   console.log("Updating Maria's last name from 'Kila' to 'Kila-Vele'...");
   maria.lastName = "Kila-Vele";
 
@@ -169,6 +170,7 @@ async function runInteractiveWorkflow() {
     console.log(newBooking.getSummary());
 
     // 4. Display complete history for the newly created student
+    console.log("");
     displayBookingHistory(studentObj, bookingsDatabase);
 
   } catch (error) {
