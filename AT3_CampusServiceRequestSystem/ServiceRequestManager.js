@@ -2,15 +2,56 @@
 
 const { User } = require('./User');
 const { ServiceRequest } = require('./ServiceRequest');
+const { AuditEntry } = require('./AuditEntry');
 
 /**
- * ServiceRequestManager - holds users and requests in JavaScript arrays
- * and enforces the business rules (duplicates, ownership).
+ * ServiceRequestManager - holds users, requests and audit entries in arrays
+ * and enforces the business rules (duplicates, ownership, roles via the request).
  * It does no console input/output - that belongs to CampusServiceApp.
+ *
+ * Every action that changes data goes through #perform(), which writes an audit
+ * entry whether the action succeeds or is rejected.
  */
 class ServiceRequestManager {
   #users = [];
   #requests = [];
+  #auditEntries = [];
+
+  // ------------------------------------------------------------------
+  // Audit helpers
+  // ------------------------------------------------------------------
+
+  #audit(actorId, action, requestId, description, outcome) {
+    const number = this.#auditEntries.length + 1;
+    this.#auditEntries.push(new AuditEntry({
+      auditId: `AUD${String(number).padStart(4, '0')}`,
+      actorId: String(actorId ?? '').trim() || 'UNKNOWN',
+      action,
+      requestId: requestId == null ? null : String(requestId).trim() || null,
+      description,
+      outcome
+    }));
+  }
+
+  /** Runs an operation and records Success, or Rejected (then re-throws the error). */
+  #perform(actorId, action, requestId, description, operation) {
+    try {
+      const result = operation();
+      this.#audit(actorId, action, requestId, description, 'Success');
+      return result;
+    } catch (error) {
+      this.#audit(actorId, action, requestId, `${description} Reason: ${error.message}`, 'Rejected');
+      throw error;
+    }
+  }
+
+  getAuditEntries() {
+    return [...this.#auditEntries];
+  }
+
+  // ------------------------------------------------------------------
+  // Users
+  // ------------------------------------------------------------------
 
   registerUser(user) {
     if (!(user instanceof User)) throw new Error('registerUser requires a User object.');
@@ -25,6 +66,21 @@ class ServiceRequestManager {
   findUserById(userId) {
     return this.#users.find((u) => u.userId === String(userId).trim());
   }
+
+  getAllUsers() {
+    return [...this.#users];
+  }
+
+  /** Like findUserById, but throws a clear error instead of returning undefined. */
+  #mustFindUser(userId) {
+    const user = this.findUserById(userId);
+    if (!user) throw new Error(`User ${String(userId ?? '').trim() || '(blank)'} is not registered.`);
+    return user;
+  }
+
+  // ------------------------------------------------------------------
+  // Requests (Pass)
+  // ------------------------------------------------------------------
 
   submitRequest(request) {
     if (!(request instanceof ServiceRequest)) throw new Error('submitRequest requires a ServiceRequest object.');
@@ -44,6 +100,13 @@ class ServiceRequestManager {
     return this.#requests.find((r) => r.requestId.toUpperCase() === id);
   }
 
+  /** Like findRequestById, but throws a clear error instead of returning undefined. */
+  #mustFindRequest(requestId) {
+    const request = this.findRequestById(requestId);
+    if (!request) throw new Error(`Request ${String(requestId ?? '').trim() || '(blank)'} was not found.`);
+    return request;
+  }
+
   getRequestsByUser(userId) {
     const id = String(userId).trim();
     return this.#requests.filter((r) => r.requester.userId === id);
@@ -54,8 +117,7 @@ class ServiceRequestManager {
   }
 
   #getOwnedRequest(requestId, userId) {
-    const request = this.findRequestById(requestId);
-    if (!request) throw new Error(`Request ${requestId} was not found.`);
+    const request = this.#mustFindRequest(requestId);
     if (request.requester.userId !== String(userId).trim()) {
       throw new Error('Access denied: you can only change your own requests.');
     }
@@ -63,15 +125,19 @@ class ServiceRequestManager {
   }
 
   updateRequest(requestId, userId, changes) {
-    const request = this.#getOwnedRequest(requestId, userId);
-    request.updateDetails(changes);
-    return request;
+    return this.#perform(userId, 'Update Request', requestId, `Update request ${requestId}.`, () => {
+      const request = this.#getOwnedRequest(requestId, userId);
+      request.updateDetails(changes);
+      return request;
+    });
   }
 
   cancelRequest(requestId, userId) {
-    const request = this.#getOwnedRequest(requestId, userId);
-    request.cancelRequest();
-    return request;
+    return this.#perform(userId, 'Cancel Request', requestId, `Cancel request ${requestId}.`, () => {
+      const request = this.#getOwnedRequest(requestId, userId);
+      request.cancelRequest();
+      return request;
+    });
   }
 
   searchRequests(searchText) {
@@ -88,6 +154,116 @@ class ServiceRequestManager {
       summary[r.status] = (summary[r.status] || 0) + 1;
       return summary;
     }, {});
+  }
+
+  // ------------------------------------------------------------------
+  // Workflow (Credit): the manager finds the objects; the request enforces
+  // the role and status rules; #perform audits the outcome.
+  // ------------------------------------------------------------------
+
+  reviewRequest(requestId, officerId, comment = '') {
+    return this.#perform(officerId, 'Review Request', requestId, `Review request ${requestId}.`, () => {
+      const request = this.#mustFindRequest(requestId);
+      request.review(this.#mustFindUser(officerId), comment);
+      return request;
+    });
+  }
+
+  setRequestPriority(requestId, officerId, priority, comment = '') {
+    return this.#perform(officerId, 'Set Priority', requestId, `Set priority of ${requestId} to ${priority}.`, () => {
+      const request = this.#mustFindRequest(requestId);
+      request.setPriority(this.#mustFindUser(officerId), priority, comment);
+      return request;
+    });
+  }
+
+  assignTechnician(requestId, officerId, technicianId, comment = '') {
+    return this.#perform(officerId, 'Assign Technician', requestId,
+      `Assign ${technicianId} to request ${requestId}.`, () => {
+        const request = this.#mustFindRequest(requestId);
+        request.assignTechnician(this.#mustFindUser(officerId), this.#mustFindUser(technicianId), comment);
+        return request;
+      });
+  }
+
+  startWork(requestId, technicianId, comment = '') {
+    return this.#perform(technicianId, 'Start Work', requestId, `Start work on request ${requestId}.`, () => {
+      const request = this.#mustFindRequest(requestId);
+      request.startWork(this.#mustFindUser(technicianId), comment);
+      return request;
+    });
+  }
+
+  addProgressNote(requestId, technicianId, note) {
+    return this.#perform(technicianId, 'Progress Note', requestId, `Add progress note to request ${requestId}.`, () => {
+      const request = this.#mustFindRequest(requestId);
+      request.addProgressNote(this.#mustFindUser(technicianId), note);
+      return request;
+    });
+  }
+
+  resolveRequest(requestId, technicianId, comment = '') {
+    return this.#perform(technicianId, 'Resolve Request', requestId, `Resolve request ${requestId}.`, () => {
+      const request = this.#mustFindRequest(requestId);
+      request.resolve(this.#mustFindUser(technicianId), comment);
+      return request;
+    });
+  }
+
+  closeRequest(requestId, officerId, comment = '') {
+    return this.#perform(officerId, 'Close Request', requestId, `Close request ${requestId}.`, () => {
+      const request = this.#mustFindRequest(requestId);
+      request.close(this.#mustFindUser(officerId), comment);
+      return request;
+    });
+  }
+
+  // ------------------------------------------------------------------
+  // Filter and sort (Credit). The optional last argument lets you filter
+  // first and then sort the result: sortByPriority(true, filterByStatus('Assigned'))
+  // ------------------------------------------------------------------
+
+  filterByCategory(category, requests = this.#requests) {
+    const value = String(category ?? '').trim();
+    if (!ServiceRequest.CATEGORIES.includes(value)) {
+      throw new Error(`Unsupported category "${category}". Allowed: ${ServiceRequest.CATEGORIES.join(', ')}.`);
+    }
+    return requests.filter((r) => r.category === value);
+  }
+
+  filterByStatus(status, requests = this.#requests) {
+    const value = String(status ?? '').trim();
+    if (!ServiceRequest.STATUSES.includes(value)) {
+      throw new Error(`Unsupported status "${status}". Allowed: ${ServiceRequest.STATUSES.join(', ')}.`);
+    }
+    return requests.filter((r) => r.status === value);
+  }
+
+  filterByPriority(priority, requests = this.#requests) {
+    const value = String(priority ?? '').trim();
+    if (!ServiceRequest.PRIORITIES.includes(value)) {
+      throw new Error(`Unsupported priority "${priority}". Allowed: ${ServiceRequest.PRIORITIES.join(', ')}.`);
+    }
+    return requests.filter((r) => r.priority === value);
+  }
+
+  filterByTechnician(technicianId, requests = this.#requests) {
+    const id = String(technicianId ?? '').trim();
+    if (!id) throw new Error('A Technician ID is required.');
+    return requests.filter((r) => r.assignedTechnician && r.assignedTechnician.userId === id);
+  }
+
+  sortByDateSubmitted(ascending = true, requests = this.#requests) {
+    const direction = ascending ? 1 : -1;
+    return [...requests].sort((a, b) => direction * (a.dateSubmitted - b.dateSubmitted));
+  }
+
+  sortByPriority(highestFirst = true, requests = this.#requests) {
+    const rank = (r) => ServiceRequest.PRIORITIES.indexOf(r.priority);
+    const direction = highestFirst ? -1 : 1;
+    return [...requests].sort((a, b) =>
+      direction * (rank(a) - rank(b)) || (a.dateSubmitted - b.dateSubmitted) // ties: oldest first
+    );
   }
 }
 
