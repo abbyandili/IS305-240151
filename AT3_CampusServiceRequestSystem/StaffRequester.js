@@ -15,6 +15,12 @@ class StaffRequester extends User {
 
   get department() { return this.#department; }
 
+  set department(value) {
+    const v = clean(value);
+    if (!v) throw new Error('Department is required.');
+    this.#department = v;
+  }
+
   validateSpecialisedFields() {
     if (!this.#department) throw new Error('Department is required.');
     return true;
@@ -22,6 +28,10 @@ class StaffRequester extends User {
 
   displayInfo() {
     return `${super.displayInfo()} | Department: ${this.#department}`;
+  }
+
+  toData() {
+    return { ...super.toData(), department: this.#department };
   }
 }
 

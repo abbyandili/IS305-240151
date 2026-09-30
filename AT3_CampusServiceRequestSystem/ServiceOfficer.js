@@ -15,6 +15,12 @@ class ServiceOfficer extends User {
 
   get serviceSection() { return this.#serviceSection; }
 
+  set serviceSection(value) {
+    const v = clean(value);
+    if (!v) throw new Error('Service section is required.');
+    this.#serviceSection = v;
+  }
+
   validateSpecialisedFields() {
     if (!this.#serviceSection) throw new Error('Service section is required.');
     return true;
@@ -22,6 +28,10 @@ class ServiceOfficer extends User {
 
   displayInfo() {
     return `${super.displayInfo()} | Section: ${this.#serviceSection}`;
+  }
+
+  toData() {
+    return { ...super.toData(), serviceSection: this.#serviceSection };
   }
 }
 

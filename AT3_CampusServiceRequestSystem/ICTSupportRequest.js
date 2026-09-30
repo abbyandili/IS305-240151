@@ -18,7 +18,7 @@ class ICTSupportRequest extends ServiceRequest {
   #networkImpact;
 
   constructor(commonRequestData, specialisedData = {}) {
-    super({ ...commonRequestData, category: ICTSupportRequest.CATEGORY }); // constructor chaining
+    super({ ...commonRequestData, category: clean(commonRequestData?.category) || ICTSupportRequest.CATEGORY }); // constructor chaining
     this.#deviceType = clean(specialisedData.deviceType);
     this.#systemName = clean(specialisedData.systemName);
     this.#faultType = clean(specialisedData.faultType);
@@ -31,10 +31,13 @@ class ICTSupportRequest extends ServiceRequest {
   get faultType() { return this.#faultType; }
   get networkImpact() { return this.#networkImpact; }
 
-  // ---- overridden methods ----
+  // ---- overridden abstract-style methods ----
 
   validateSpecialisedFields() {
     const problems = [];
+    if (this.category !== ICTSupportRequest.CATEGORY) {
+      problems.push(`An ICT support request must use the category "${ICTSupportRequest.CATEGORY}".`);
+    }
     if (!this.#deviceType) problems.push('Device type is required.');
     if (!this.#systemName) problems.push('System name is required.');
     if (!this.#faultType) problems.push('Fault type is required.');
@@ -58,7 +61,7 @@ class ICTSupportRequest extends ServiceRequest {
 
   getRequestSummary() {
     return [
-      super.getRequestSummary(),
+      this.getCommonSummary(),
       'Request Type      : ICT Support Request',
       `Device Type       : ${this.#deviceType}`,
       `System Name       : ${this.#systemName}`,
@@ -67,6 +70,18 @@ class ICTSupportRequest extends ServiceRequest {
       `Priority Score    : ${this.calculatePriorityScore()}`,
       `Target Resolution : ${this.getTargetResolutionHours()} hours`
     ].join('\n');
+  }
+
+  toData() {
+    return {
+      ...super.toData(),
+      details: {
+        deviceType: this.#deviceType,
+        systemName: this.#systemName,
+        faultType: this.#faultType,
+        networkImpact: this.#networkImpact
+      }
+    };
   }
 }
 

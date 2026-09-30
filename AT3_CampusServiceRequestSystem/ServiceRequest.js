@@ -4,16 +4,16 @@ const { User } = require('./User');
 const { ServiceOfficer } = require('./ServiceOfficer');
 const { Technician } = require('./Technician');
 const { HistoryEntry } = require('./HistoryEntry');
-const { clean } = require('./validation');
+const { clean, toValidDate } = require('./validation');
 
 /**
- * ServiceRequest - base class for a campus service request.
+ * ServiceRequest - abstract-style base class for every campus service request.
  *
- * Credit stage note: calculatePriorityScore(), getTargetResolutionHours(),
- * validateSpecialisedFields() and getRequestSummary() have sensible CONCRETE
- * defaults here, so a specialised subclass genuinely OVERRIDES them rather
- * than just adding new methods. (At Distinction stage these four become
- * abstract-style: the base versions throw instead of returning a default.)
+ * Shared state, validation, the controlled workflow, role permissions and the
+ * history live here. Behaviour that depends on the TYPE of request
+ * (getRequestSummary, calculatePriorityScore, getTargetResolutionHours,
+ * validateSpecialisedFields) is only declared here: this class throws a clear
+ * error unless a subclass overrides it.
  */
 class ServiceRequest {
   static CATEGORIES = [
@@ -24,9 +24,6 @@ class ServiceRequest {
   ];
   static PRIORITIES = ['Low', 'Normal', 'High', 'Urgent'];
   static STATUSES = ['Submitted', 'Reviewed', 'Assigned', 'In Progress', 'Resolved', 'Closed', 'Cancelled'];
-  static UPDATABLE_FIELDS = ['title', 'description', 'location', 'category', 'priority'];
-  static PRIORITY_WEIGHTS = Object.freeze({ Low: 10, Normal: 20, High: 30, Urgent: 40 });
-  static DEFAULT_TARGET_HOURS = Object.freeze({ Urgent: 24, High: 48, Normal: 96, Low: 168 });
 
   // The whole workflow in one lookup table: status -> statuses it may move to.
   static TRANSITIONS = Object.freeze({
@@ -38,6 +35,10 @@ class ServiceRequest {
     Closed: Object.freeze([]),
     Cancelled: Object.freeze([])
   });
+
+  static OPEN_STATUSES = Object.freeze(['Submitted', 'Reviewed', 'Assigned', 'In Progress']);
+  static PRIORITY_WEIGHTS = Object.freeze({ Low: 10, Normal: 20, High: 30, Urgent: 40 });
+  static UPDATABLE_FIELDS = ['title', 'description', 'location', 'category', 'priority'];
 
   #requestId;
   #requester;
@@ -53,8 +54,8 @@ class ServiceRequest {
   #history = [];
 
   /**
-   * @param {object} data - { requestId, requester, title, description,
-   *                          location, category, priority }
+   * @param {object} data - the common request data:
+   *   { requestId, requester, title, description, location, category, priority }
    * Subclasses call super(commonRequestData) (constructor chaining).
    */
   constructor(data = {}) {
@@ -96,6 +97,10 @@ class ServiceRequest {
     return [...this.#history]; // copy, so callers cannot change the history
   }
 
+  // ------------------------------------------------------------------
+  // Validation
+  // ------------------------------------------------------------------
+
   /** Checks a set of field values; returns a list of problems (empty = valid). */
   static #findProblems(fields) {
     const problems = [];
@@ -111,7 +116,10 @@ class ServiceRequest {
     return problems;
   }
 
-  /** Validates the COMMON fields; throws if invalid, returns true otherwise. */
+  /**
+   * Validates the COMMON fields; throws if invalid, returns true otherwise.
+   * (Type-specific fields are checked by validateSpecialisedFields().)
+   */
   validate() {
     const problems = [];
     if (!this.#requestId) problems.push('Request ID is required.');
@@ -128,28 +136,22 @@ class ServiceRequest {
   }
 
   // ------------------------------------------------------------------
-  // Methods every subclass is expected to OVERRIDE. Each has a sensible
-  // default here so the base class is still usable on its own for the
-  // "General Campus Service" category (no specialised class required
-  // for that one at Credit stage).
+  // Abstract-style methods: subclasses MUST override these.
   // ------------------------------------------------------------------
 
-  /** No specialised fields on the base class, so there is nothing extra to check. */
-  validateSpecialisedFields() {
-    return true;
+  #mustOverride(methodName) {
+    return new Error(
+      `ServiceRequest is abstract: ${this.constructor.name} must override ${methodName}().`
+    );
   }
 
-  /** Default score: just the priority weight. Subclasses add type-specific factors. */
-  calculatePriorityScore() {
-    return ServiceRequest.PRIORITY_WEIGHTS[this.#priority];
-  }
+  validateSpecialisedFields() { throw this.#mustOverride('validateSpecialisedFields'); }
+  getRequestSummary() { throw this.#mustOverride('getRequestSummary'); }
+  calculatePriorityScore() { throw this.#mustOverride('calculatePriorityScore'); }
+  getTargetResolutionHours() { throw this.#mustOverride('getTargetResolutionHours'); }
 
-  /** Default target time: a generic table by priority. Subclasses tighten this. */
-  getTargetResolutionHours() {
-    return ServiceRequest.DEFAULT_TARGET_HOURS[this.#priority];
-  }
-
-  getRequestSummary() {
+  /** Concrete helper: the summary lines every request type shares. */
+  getCommonSummary() {
     const technician = this.#assignedTechnician
       ? `${this.#assignedTechnician.getFullName()} (${this.#assignedTechnician.userId})`
       : 'Not assigned';
@@ -169,7 +171,7 @@ class ServiceRequest {
   }
 
   // ------------------------------------------------------------------
-  // Requester actions
+  // Requester actions (Pass)
   // ------------------------------------------------------------------
 
   /**
@@ -327,6 +329,63 @@ class ServiceRequest {
     ServiceRequest.#requireOfficer(actor, 'verify and close a request');
     this.#transition('Closed', 'Close Request', actor, comment || 'Resolution verified.');
     return true;
+  }
+
+  // ------------------------------------------------------------------
+  // Saving and restoring (Distinction)
+  // ------------------------------------------------------------------
+
+  /** Plain data for JSON. Subclasses add their own fields under "details". */
+  toData() {
+    return {
+      requestId: this.#requestId,
+      requestType: this.constructor.name,
+      requesterId: this.#requester.userId,
+      title: this.#title,
+      description: this.#description,
+      location: this.#location,
+      category: this.#category,
+      priority: this.#priority,
+      status: this.#status,
+      assignedTechnicianId: this.#assignedTechnician ? this.#assignedTechnician.userId : null,
+      dateSubmitted: this.#dateSubmitted.toISOString(),
+      dateUpdated: this.#dateUpdated.toISOString()
+    };
+  }
+
+  /**
+   * Puts a freshly rebuilt request back into its saved state.
+   * Intended for ServiceRequestFactory only. Validates everything first.
+   */
+  restoreState({ status, assignedTechnician = null, dateSubmitted, dateUpdated, history = [] } = {}) {
+    const problems = [];
+    if (!ServiceRequest.STATUSES.includes(status)) {
+      problems.push(`Saved status "${status}" is not valid.`);
+    }
+    if (assignedTechnician !== null && !(assignedTechnician instanceof Technician)) {
+      problems.push('The saved assigned Technician is not a Technician.');
+    }
+    const needsTechnician = ['Assigned', 'In Progress', 'Resolved', 'Closed'].includes(status);
+    if (needsTechnician && !assignedTechnician) {
+      problems.push(`A ${status} request must have an assigned Technician.`);
+    }
+    if (!needsTechnician && assignedTechnician) {
+      problems.push(`A ${status} request must not have an assigned Technician.`);
+    }
+    const submitted = toValidDate(dateSubmitted);
+    const updated = toValidDate(dateUpdated);
+    if (!submitted) problems.push('Saved date submitted is not a valid date.');
+    if (!updated) problems.push('Saved date updated is not a valid date.');
+    if (!Array.isArray(history) || !history.every((h) => h instanceof HistoryEntry)) {
+      problems.push('Saved history must be a list of HistoryEntry objects.');
+    }
+    if (problems.length > 0) throw new Error(problems.join(' '));
+
+    this.#status = status;
+    this.#assignedTechnician = assignedTechnician;
+    this.#dateSubmitted = submitted;
+    this.#dateUpdated = updated;
+    this.#history = [...history];
   }
 }
 

@@ -21,7 +21,7 @@ class CleaningRequest extends ServiceRequest {
   #preferredServiceTime;
 
   constructor(commonRequestData, specialisedData = {}) {
-    super({ ...commonRequestData, category: CleaningRequest.CATEGORY });
+    super({ ...commonRequestData, category: clean(commonRequestData?.category) || CleaningRequest.CATEGORY });
     this.#cleaningArea = clean(specialisedData.cleaningArea);
     this.#hygieneRisk = clean(specialisedData.hygieneRisk) || 'Low';
     this.#serviceType = clean(specialisedData.serviceType);
@@ -36,6 +36,9 @@ class CleaningRequest extends ServiceRequest {
 
   validateSpecialisedFields() {
     const problems = [];
+    if (this.category !== CleaningRequest.CATEGORY) {
+      problems.push(`A cleaning request must use the category "${CleaningRequest.CATEGORY}".`);
+    }
     if (!this.#cleaningArea) problems.push('Cleaning area is required.');
     if (!CleaningRequest.HYGIENE_RISKS.includes(this.#hygieneRisk)) {
       problems.push(`Hygiene risk must be one of: ${CleaningRequest.HYGIENE_RISKS.join(', ')}.`);
@@ -63,7 +66,7 @@ class CleaningRequest extends ServiceRequest {
 
   getRequestSummary() {
     return [
-      super.getRequestSummary(),
+      this.getCommonSummary(),
       'Request Type      : Cleaning Request',
       `Cleaning Area     : ${this.#cleaningArea}`,
       `Hygiene Risk      : ${this.#hygieneRisk}`,
@@ -72,6 +75,18 @@ class CleaningRequest extends ServiceRequest {
       `Priority Score    : ${this.calculatePriorityScore()}`,
       `Target Resolution : ${this.getTargetResolutionHours()} hours`
     ].join('\n');
+  }
+
+  toData() {
+    return {
+      ...super.toData(),
+      details: {
+        cleaningArea: this.#cleaningArea,
+        hygieneRisk: this.#hygieneRisk,
+        serviceType: this.#serviceType,
+        preferredServiceTime: this.#preferredServiceTime
+      }
+    };
   }
 }
 

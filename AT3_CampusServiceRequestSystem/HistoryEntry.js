@@ -1,6 +1,6 @@
 'use strict';
 
-const { clean } = require('./validation');
+const { clean, toValidDate } = require('./validation');
 
 /** One row in a request's history: what changed, who did it, when. Immutable once created. */
 class HistoryEntry {
@@ -19,7 +19,7 @@ class HistoryEntry {
     this.#actorId = clean(actorId);
     this.#actorRole = clean(actorRole);
     this.#comment = clean(comment);
-    this.#timestamp = new Date(timestamp);
+    this.#timestamp = toValidDate(timestamp);
 
     const problems = [];
     if (!this.#previousStatus) problems.push('History previous status is required.');
@@ -27,6 +27,7 @@ class HistoryEntry {
     if (!this.#action) problems.push('History action is required.');
     if (!this.#actorId) problems.push('History actor ID is required.');
     if (!this.#actorRole) problems.push('History actor role is required.');
+    if (!this.#timestamp) problems.push('History timestamp is not a valid date.');
     if (problems.length > 0) throw new Error(problems.join(' '));
   }
 
@@ -37,6 +38,22 @@ class HistoryEntry {
   get actorRole() { return this.#actorRole; }
   get comment() { return this.#comment; }
   get timestamp() { return new Date(this.#timestamp); }
+
+  toData() {
+    return {
+      previousStatus: this.#previousStatus,
+      newStatus: this.#newStatus,
+      action: this.#action,
+      actorId: this.#actorId,
+      actorRole: this.#actorRole,
+      comment: this.#comment,
+      timestamp: this.#timestamp.toISOString()
+    };
+  }
+
+  static fromData(data) {
+    return new HistoryEntry(data);
+  }
 }
 
 module.exports = { HistoryEntry };

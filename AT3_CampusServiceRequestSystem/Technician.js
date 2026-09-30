@@ -15,6 +15,12 @@ class Technician extends User {
 
   get technicalSpeciality() { return this.#technicalSpeciality; }
 
+  set technicalSpeciality(value) {
+    const v = clean(value);
+    if (!v) throw new Error('Technical speciality is required.');
+    this.#technicalSpeciality = v;
+  }
+
   validateSpecialisedFields() {
     if (!this.#technicalSpeciality) throw new Error('Technical speciality is required.');
     return true;
@@ -22,6 +28,10 @@ class Technician extends User {
 
   displayInfo() {
     return `${super.displayInfo()} | Speciality: ${this.#technicalSpeciality}`;
+  }
+
+  toData() {
+    return { ...super.toData(), technicalSpeciality: this.#technicalSpeciality };
   }
 }
 

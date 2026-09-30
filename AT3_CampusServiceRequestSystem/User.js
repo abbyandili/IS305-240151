@@ -82,6 +82,17 @@ class User {
   displayInfo() {
     return `ID: ${this.#userId} | Name: ${this.getFullName()} | Email: ${this.#email} | Type: ${this.#userType}`;
   }
+
+  /** Plain data for saving to JSON. Subclasses extend this with their own fields. */
+  toData() {
+    return {
+      userId: this.#userId,
+      firstName: this.#firstName,
+      lastName: this.#lastName,
+      email: this.#email,
+      userType: this.#userType
+    };
+  }
 }
 
 module.exports = { User };

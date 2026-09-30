@@ -18,6 +18,18 @@ class StudentRequester extends User {
   get programme() { return this.#programme; }
   get yearLevel() { return this.#yearLevel; }
 
+  set programme(value) {
+    const v = clean(value);
+    if (!v) throw new Error('Programme is required.');
+    this.#programme = v;
+  }
+
+  set yearLevel(value) {
+    const n = Number(value);
+    if (!Number.isInteger(n) || n < 1 || n > 6) throw new Error('Year level must be a whole number from 1 to 6.');
+    this.#yearLevel = n;
+  }
+
   validateSpecialisedFields() {
     const problems = [];
     if (!this.#programme) problems.push('Programme is required.');
@@ -30,6 +42,10 @@ class StudentRequester extends User {
 
   displayInfo() {
     return `${super.displayInfo()} | Programme: ${this.#programme} | Year: ${this.#yearLevel}`;
+  }
+
+  toData() {
+    return { ...super.toData(), programme: this.#programme, yearLevel: this.#yearLevel };
   }
 }
 

@@ -5,4 +5,10 @@ function clean(value) {
   return typeof value === 'string' ? value.trim() : '';
 }
 
-module.exports = { clean };
+/** Returns a new Date for a Date or date string, or null when it is not a real date. */
+function toValidDate(value) {
+  const date = new Date(value);
+  return Number.isNaN(date.getTime()) ? null : date;
+}
+
+module.exports = { clean, toValidDate };

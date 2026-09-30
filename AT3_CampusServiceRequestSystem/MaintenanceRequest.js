@@ -18,7 +18,7 @@ class MaintenanceRequest extends ServiceRequest {
   #equipmentAffected;
 
   constructor(commonRequestData, specialisedData = {}) {
-    super({ ...commonRequestData, category: MaintenanceRequest.CATEGORY });
+    super({ ...commonRequestData, category: clean(commonRequestData?.category) || MaintenanceRequest.CATEGORY });
     this.#building = clean(specialisedData.building);
     this.#roomNumber = clean(specialisedData.roomNumber);
     this.#hazardLevel = clean(specialisedData.hazardLevel) || 'None';
@@ -33,6 +33,9 @@ class MaintenanceRequest extends ServiceRequest {
 
   validateSpecialisedFields() {
     const problems = [];
+    if (this.category !== MaintenanceRequest.CATEGORY) {
+      problems.push(`A maintenance request must use the category "${MaintenanceRequest.CATEGORY}".`);
+    }
     if (!this.#building) problems.push('Building is required.');
     if (!this.#roomNumber) problems.push('Room number is required.');
     if (!MaintenanceRequest.HAZARD_LEVELS.includes(this.#hazardLevel)) {
@@ -56,7 +59,7 @@ class MaintenanceRequest extends ServiceRequest {
 
   getRequestSummary() {
     return [
-      super.getRequestSummary(),
+      this.getCommonSummary(),
       'Request Type      : Maintenance Request',
       `Building          : ${this.#building}`,
       `Room Number       : ${this.#roomNumber}`,
@@ -65,6 +68,18 @@ class MaintenanceRequest extends ServiceRequest {
       `Priority Score    : ${this.calculatePriorityScore()}`,
       `Target Resolution : ${this.getTargetResolutionHours()} hours`
     ].join('\n');
+  }
+
+  toData() {
+    return {
+      ...super.toData(),
+      details: {
+        building: this.#building,
+        roomNumber: this.#roomNumber,
+        hazardLevel: this.#hazardLevel,
+        equipmentAffected: this.#equipmentAffected
+      }
+    };
   }
 }
 
