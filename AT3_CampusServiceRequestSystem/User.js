@@ -1,9 +1,6 @@
 'use strict';
 
-// Helper: trims strings, returns '' for anything that is not a string.
-function clean(value) {
-  return typeof value === 'string' ? value.trim() : '';
-}
+const { clean } = require('./validation');
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
