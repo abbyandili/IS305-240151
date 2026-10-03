@@ -1,0 +1,75 @@
+✔ C-01 User subclasses call super() and inherit User behaviour
+✔ C-02 Specialised user fields are validated
+✔ C-03 Request subclasses call super() and start as Submitted
+✔ C-04 Specialised request fields are validated
+✔ C-05 Only a Service Officer can review a request and set its priority
+✔ C-06 Only a Service Officer can assign a Technician, and only to a Technician
+✔ C-07 Only the assigned Technician can start, update and resolve the work
+✔ C-08 Only a Service Officer can close a Resolved request
+✔ C-09 Invalid status transitions are rejected
+✔ C-10 Cancelled and Closed are final statuses
+✔ C-11 A requester can update or cancel only their own Submitted request
+✔ C-12 The category of a request cannot be changed
+✔ C-13 Only students and staff can submit requests
+✔ C-14 Request history records every approved action, and only approved actions
+✔ C-15 Specialised summaries show the correct type-specific information
+✔ C-16 Overridden score and target-time methods give type-specific results
+✔ C-17 Search by request ID or title returns correct results
+✔ C-18 Filters by category, status, priority and Technician return correct results
+✔ C-19 Sorting by date submitted and by priority returns correct order
+✔ D-01 The abstract-style base class throws clear errors for methods subclasses must supply
+✔ D-02 Polymorphism: one collection, the same method calls, type-specific results
+✔ D-03 UserFactory rebuilds the correct User subclass from saved data
+✔ D-04 ServiceRequestFactory rebuilds every request type with its state and history
+✔ D-05 ServiceRequestFactory rejects unknown types, mismatched requesters and impossible states
+✔ D-06 A missing data file gives an empty array and ensureFile creates it
+✔ D-07 An empty data file gives an empty array
+✔ D-08 Repository saveAll, loadAll, create, findById and update work
+✔ D-09 Repositories refuse incomplete or duplicate records and leave the file unchanged
+✔ D-10 Corrupt or wrong-shaped JSON gives a clear file-reading error
+✔ D-11 A file-writing failure gives a clear error
+✔ D-12 Repository search methods find records by requester, Technician, type and request
+✔ D-13 Data is saved to the four JSON files as plain data only
+✔ D-14 Saved data is restored as the correct objects, exactly as saved
+✔ D-15 Restored objects still validate, override and behave polymorphically
+✔ D-16 A restored request continues through the workflow with role checks intact
+✔ D-17 Loading creates missing files and returns zero counts for an empty system
+✔ D-18 Invalid saved data gives a clear error and leaves the manager untouched
+✔ D-19 Saving to an unwritable location reports a clear error
+✔ D-20 The audit log records every required action with all required fields
+✔ D-21 Audit entries are saved, restored, and numbering continues after a restart
+✔ D-22 Reports calculate correct counts, lists and averages
+✔ D-23 Reports handle an empty system without errors
+✔ D-24 The console app saves data and a restarted app shows it again
+✔ D-25 The app stops without overwriting a corrupt data file
+✔ D-26 Role menus enforce the roles and the workflow through the console
+✔ D-27 The application code keeps file access inside the repositories
+✔ D-28 The sample data in data/ loads into correct objects (copied first, so it is never modified)
+✔ P-01 Valid user registration
+✔ P-02 Duplicate user ID is rejected
+✔ P-03 Missing user ID is rejected
+✔ P-04 Missing first or last name is rejected
+✔ P-05 Invalid email address is rejected
+✔ P-06 Valid request submission is stored with Submitted status
+✔ P-07 Duplicate request ID is rejected
+✔ P-08 Missing request title or description is rejected
+✔ P-09 Invalid request category is rejected clearly
+✔ P-10 Unsupported priority value is rejected
+✔ P-11 View requester records shows only the selected user's requests
+✔ P-12 Owner can update a Submitted request
+✔ P-13 Update attempted by another user is rejected
+✔ P-14 Cancelling a Submitted request changes status to Cancelled
+✔ P-15 Cancelling another user's request is rejected
+✔ P-16 Cancelling an already Cancelled request is rejected
+✔ P-17 Search finds requests by text, ignoring case
+✔ P-18 Request summary by status counts correctly
+✔ P-19 A Cancelled request cannot be updated
+✔ P-20 An invalid update changes nothing (all-or-nothing)
+ℹ tests 67
+ℹ suites 0
+ℹ pass 67
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 521.68357

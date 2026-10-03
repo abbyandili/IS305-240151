@@ -1,0 +1,186 @@
+Loaded 7 user(s), 6 request(s) and 27 audit entries from <project folder>/data
+
+============================================
+   CAMPUS SERVICE REQUEST SYSTEM
+============================================
+1. Register User
+2. Submit Service Request
+3. View Request by ID
+4. View My Requests
+5. View All Requests
+6. Update My Request
+7. Cancel My Request
+8. Search Requests
+9. View Request Summary
+10. Exit
+--------------------------------------------
+11. Service Officer Menu
+12. Technician Menu
+13. Filter and Sort Requests
+14. Administrator Menu
+============================================
+Enter choice (1-14): 1
+User ID: DWU2026001
+First name: Mary
+Last name: Kila
+Email: mary.kila@example.com
+User type:
+  1. Student
+  2. Staff
+  3. Service Officer
+  4. Technician
+  5. Administrator
+Choose [Student]: 1
+Programme: BIS
+Year level (1-6): 2
+Error: Duplicate user ID: DWU2026001 is already registered.
+
+[main menu displayed]
+Enter choice (1-14): 1
+User ID: NEWUSER
+First name: Peter
+Last name: Bani
+Email: peter-at-example
+User type:
+  1. Student
+  2. Staff
+  3. Service Officer
+  4. Technician
+  5. Administrator
+Choose [Student]: 1
+Programme: Business
+Year level (1-6): 1
+Error: A valid email address is required.
+
+[main menu displayed]
+Enter choice (1-14): 2
+Your user ID: GHOST
+Error: User GHOST is not registered. Register first (option 1).
+
+[main menu displayed]
+Enter choice (1-14): 2
+Your user ID: DWU2026001
+Title: Broken chair
+Description: Loose leg
+Campus location: Room B12
+Category:
+  1. ICT Support
+  2. Facilities Maintenance
+  3. Cleaning and Sanitation
+  4. General Campus Service
+Choose: Furniture
+Error: Unsupported category "Furniture". Allowed: ICT Support, Facilities Maintenance, Cleaning and Sanitation, General Campus Service.
+
+[main menu displayed]
+Enter choice (1-14): 6
+Request ID to update: REQ003
+Your user ID: DWU2026002
+Press Enter to keep the current value. (The category cannot be changed.)
+New title: 
+New description: 
+New location: 
+New priority:
+  1. Low
+  2. Normal
+  3. High
+  4. Urgent
+Choose: 
+Error: No changes were supplied.
+
+[main menu displayed]
+Enter choice (1-14): 
+Invalid choice. Please enter a number from 1 to 14.
+
+[main menu displayed]
+Enter choice (1-14): 7
+Request ID to cancel: REQ003
+Your user ID: DWU2026002
+Request REQ003 is now Cancelled.
+
+[main menu displayed]
+Enter choice (1-14): 7
+Request ID to cancel: REQ004
+Your user ID: DWU2026001
+Error: Access denied: you can only change your own requests.
+
+[main menu displayed]
+Enter choice (1-14): 11
+Your Service Officer user ID: DWU2026001
+Error: Access denied: DWU2026001 is a Student, not a Service Officer.
+
+[main menu displayed]
+Enter choice (1-14): 11
+Your Service Officer user ID: OFFICER001
+
+--- SERVICE OFFICER MENU ---
+1. List Submitted requests waiting for review
+2. Review a request
+3. Set request priority (request must be Reviewed)
+4. Assign a Technician (request must be Reviewed)
+5. Verify and close a Resolved request
+6. Back to main menu
+Choose (1-6): 3
+Request ID: REQ003
+New priority:
+  1. Low
+  2. Normal
+  3. High
+  4. Urgent
+Choose: 1
+Comment (optional): 
+Error: Priority can only be set while the request is Reviewed (current status: Cancelled).
+
+--- SERVICE OFFICER MENU ---
+[menu displayed]
+Choose (1-6): 6
+
+[main menu displayed]
+Enter choice (1-14): 11
+Your Service Officer user ID: OFFICER001
+
+--- SERVICE OFFICER MENU ---
+[menu displayed]
+Choose (1-6): 4
+Registered Technicians:
+  TECH001 - Ravu Sopi (Networks and ICT)
+  TECH002 - Lena Kaupa (Plumbing and Electrical)
+Request ID: REQ003
+Technician user ID: TECH001
+Comment (optional): 
+Error: Invalid status transition: a request that is Cancelled cannot become Assigned. Allowed next status: none (final status).
+
+--- SERVICE OFFICER MENU ---
+[menu displayed]
+Choose (1-6): 6
+
+[main menu displayed]
+Enter choice (1-14): 12
+Your Technician user ID: TECH002
+
+--- TECHNICIAN MENU ---
+1. View my assigned requests
+2. Start work on a request
+3. Add a progress note
+4. Resolve a request
+5. Back to main menu
+Choose (1-5): 3
+Request ID: REQ001
+Progress note: sneaky note
+Error: Access denied: only the assigned Technician can add progress notes. This request is assigned to TECH001.
+
+--- TECHNICIAN MENU ---
+[menu displayed]
+Choose (1-5): 5
+
+[main menu displayed]
+Enter choice (1-14): 14
+Your Administrator user ID: TECH001
+Error: Access denied: TECH001 is a Technician, not an Administrator.
+
+[main menu displayed]
+Enter choice (1-14): abc
+Invalid choice. Please enter a number from 1 to 14.
+
+[main menu displayed]
+Enter choice (1-14): 10
+Goodbye.

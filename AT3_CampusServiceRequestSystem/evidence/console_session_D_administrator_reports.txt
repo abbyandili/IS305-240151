@@ -1,0 +1,164 @@
+Loaded 7 user(s), 6 request(s) and 27 audit entries from <project folder>/data
+
+============================================
+   CAMPUS SERVICE REQUEST SYSTEM
+============================================
+1. Register User
+2. Submit Service Request
+3. View Request by ID
+4. View My Requests
+5. View All Requests
+6. Update My Request
+7. Cancel My Request
+8. Search Requests
+9. View Request Summary
+10. Exit
+--------------------------------------------
+11. Service Officer Menu
+12. Technician Menu
+13. Filter and Sort Requests
+14. Administrator Menu
+============================================
+Enter choice (1-14): 14
+Your Administrator user ID: ADMIN001
+
+--- ADMINISTRATOR MENU ---
+1. Report: requests by status
+2. Report: requests by category
+3. Report: requests by priority
+4. Report: urgent requests
+5. Report: overdue requests
+6. Report: requests assigned to each Technician
+7. Report: completed requests by Technician
+8. Report: average resolution time
+9. Report: request volume by campus location
+10. Polymorphism: priority score and target time for every request
+11. View audit log
+12. View all users
+13. Back to main menu
+Choose (1-13): 1
+
+Requests by status
+  Submitted                          1
+  Assigned                           2
+  Resolved                           1
+  Closed                             1
+  Cancelled                          1
+
+--- ADMINISTRATOR MENU ---
+[menu displayed]
+Choose (1-13): 2
+
+Requests by category
+  ICT Support                        3
+  Cleaning and Sanitation            1
+  Facilities Maintenance             1
+  General Campus Service             1
+
+--- ADMINISTRATOR MENU ---
+[menu displayed]
+Choose (1-13): 3
+
+Requests by priority
+  Urgent                             1
+  High                               3
+  Normal                             1
+  Low                                1
+
+--- ADMINISTRATOR MENU ---
+[menu displayed]
+Choose (1-13): 4
+No open urgent requests.
+
+--- ADMINISTRATOR MENU ---
+[menu displayed]
+Choose (1-13): 5
+
+Overdue requests (past their target resolution time):
+  REQ006   Assigned      113.61 hours overdue - Computer lab PCs will not start
+
+--- ADMINISTRATOR MENU ---
+[menu displayed]
+Choose (1-13): 6
+
+Requests assigned to each Technician
+  TECH001 - Ravu Sopi                3
+  TECH002 - Lena Kaupa               1
+
+--- ADMINISTRATOR MENU ---
+[menu displayed]
+Choose (1-13): 7
+
+Completed (Resolved or Closed) requests by Technician
+  TECH001 - Ravu Sopi                1
+  TECH002 - Lena Kaupa               1
+
+--- ADMINISTRATOR MENU ---
+[menu displayed]
+Choose (1-13): 8
+
+Average resolution time: 0 hours (based on 2 resolved request(s)).
+
+--- ADMINISTRATOR MENU ---
+[menu displayed]
+Choose (1-13): 9
+
+Request volume by campus location
+  Building A                         1
+  Cafeteria                          1
+  Lab 3                              1
+  Lecture Theatre 2                  1
+  Lecture Theatre 3                  1
+  Library Level 2                    1
+
+--- ADMINISTRATOR MENU ---
+[menu displayed]
+Choose (1-13): 10
+
+ID       Class                  Score  Target
+REQ001   ICTSupportRequest      45     8 hours
+REQ002   MaintenanceRequest     55     8 hours
+REQ003   CleaningRequest        50     4 hours
+REQ004   GeneralServiceRequest  10     96 hours
+REQ005   ICTSupportRequest      25     24 hours
+REQ006   ICTSupportRequest      45     8 hours
+
+--- ADMINISTRATOR MENU ---
+[menu displayed]
+Choose (1-13): 11
+
+AUD0001 | 9/21/2026, 7:30:42 PM | DWU2026001 | Register User | - | Success | Register DWU2026001.
+AUD0002 | 9/21/2026, 7:30:42 PM | DWU2026002 | Register User | - | Success | Register DWU2026002.
+AUD0003 | 9/21/2026, 7:30:42 PM | STAFF001 | Register User | - | Success | Register STAFF001.
+AUD0004 | 9/21/2026, 7:30:42 PM | OFFICER001 | Register User | - | Success | Register OFFICER001.
+AUD0005 | 9/21/2026, 7:30:42 PM | TECH001 | Register User | - | Success | Register TECH001.
+AUD0006 | 9/21/2026, 7:30:42 PM | TECH002 | Register User | - | Success | Register TECH002.
+AUD0007 | 9/21/2026, 7:30:42 PM | ADMIN001 | Register User | - | Success | Register ADMIN001.
+AUD0008 | 9/21/2026, 7:30:42 PM | DWU2026001 | Create Request | REQ001 | Success | Create request REQ001.
+AUD0009 | 9/21/2026, 7:30:42 PM | OFFICER001 | Review Request | REQ001 | Success | Review request REQ001.
+AUD0010 | 9/21/2026, 7:30:42 PM | OFFICER001 | Assign Technician | REQ001 | Success | Assign TECH001 to request REQ001.
+AUD0011 | 9/21/2026, 7:30:42 PM | STAFF001 | Create Request | REQ002 | Success | Create request REQ002.
+AUD0012 | 9/21/2026, 7:30:42 PM | OFFICER001 | Review Request | REQ002 | Success | Review request REQ002.
+AUD0013 | 9/21/2026, 7:30:42 PM | OFFICER001 | Set Priority | REQ002 | Success | Set priority of REQ002 to Urgent.
+AUD0014 | 9/21/2026, 7:30:42 PM | OFFICER001 | Assign Technician | REQ002 | Success | Assign TECH002 to request REQ002.
+AUD0015 | 9/21/2026, 7:30:42 PM | TECH002 | Start Work | REQ002 | Success | Start work on request REQ002.
+AUD0016 | 9/21/2026, 7:30:42 PM | TECH002 | Progress Note | REQ002 | Success | Add progress note to request REQ002.
+AUD0017 | 9/21/2026, 7:30:42 PM | TECH002 | Resolve Request | REQ002 | Success | Resolve request REQ002.
+AUD0018 | 9/21/2026, 7:30:42 PM | DWU2026002 | Create Request | REQ003 | Success | Create request REQ003.
+AUD0019 | 9/21/2026, 7:30:42 PM | STAFF001 | Create Request | REQ004 | Success | Create request REQ004.
+AUD0020 | 9/21/2026, 7:30:42 PM | STAFF001 | Cancel Request | REQ004 | Success | Cancel request REQ004.
+AUD0021 | 9/21/2026, 7:30:42 PM | DWU2026002 | Create Request | REQ005 | Success | Create request REQ005.
+AUD0022 | 9/21/2026, 7:30:42 PM | OFFICER001 | Review Request | REQ005 | Success | Review request REQ005.
+AUD0023 | 9/21/2026, 7:30:42 PM | OFFICER001 | Assign Technician | REQ005 | Success | Assign TECH001 to request REQ005.
+AUD0024 | 9/21/2026, 7:30:42 PM | TECH001 | Start Work | REQ005 | Success | Start work on request REQ005.
+AUD0025 | 9/21/2026, 7:30:42 PM | TECH001 | Resolve Request | REQ005 | Success | Resolve request REQ005.
+AUD0026 | 9/21/2026, 7:30:42 PM | OFFICER001 | Close Request | REQ005 | Success | Close request REQ005.
+AUD0027 | 9/21/2026, 7:30:42 PM | STAFF001 | Create Request | REQ006 | Success | Create request REQ006.
+
+--- ADMINISTRATOR MENU ---
+[menu displayed]
+Choose (1-13): 13
+
+[main menu displayed]
+Enter choice (1-14): 10
+Goodbye.

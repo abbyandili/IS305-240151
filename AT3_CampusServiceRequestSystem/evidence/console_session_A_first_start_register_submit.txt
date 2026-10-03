@@ -1,0 +1,168 @@
+Loaded 0 user(s), 0 request(s) and 0 audit entries from <project folder>/data
+
+============================================
+   CAMPUS SERVICE REQUEST SYSTEM
+============================================
+1. Register User
+2. Submit Service Request
+3. View Request by ID
+4. View My Requests
+5. View All Requests
+6. Update My Request
+7. Cancel My Request
+8. Search Requests
+9. View Request Summary
+10. Exit
+--------------------------------------------
+11. Service Officer Menu
+12. Technician Menu
+13. Filter and Sort Requests
+14. Administrator Menu
+============================================
+Enter choice (1-14): 1
+User ID: DWU2026001
+First name: Mary
+Last name: Kila
+Email: mary.kila@example.com
+User type:
+  1. Student
+  2. Staff
+  3. Service Officer
+  4. Technician
+  5. Administrator
+Choose [Student]: 1
+Programme: Bachelor of Information Systems
+Year level (1-6): 2
+User registered: ID: DWU2026001 | Name: Mary Kila | Email: mary.kila@example.com | Type: Student | Programme: Bachelor of Information Systems | Year: 2
+
+[main menu displayed]
+Enter choice (1-14): 1
+User ID: OFFICER001
+First name: Grace
+Last name: Wamil
+Email: grace.wamil@example.com
+User type:
+  1. Student
+  2. Staff
+  3. Service Officer
+  4. Technician
+  5. Administrator
+Choose [Student]: 3
+Service section: Campus Services
+User registered: ID: OFFICER001 | Name: Grace Wamil | Email: grace.wamil@example.com | Type: Service Officer | Section: Campus Services
+
+[main menu displayed]
+Enter choice (1-14): 1
+User ID: TECH001
+First name: Ravu
+Last name: Sopi
+Email: ravu.sopi@example.com
+User type:
+  1. Student
+  2. Staff
+  3. Service Officer
+  4. Technician
+  5. Administrator
+Choose [Student]: 4
+Technical speciality: Networks and ICT
+User registered: ID: TECH001 | Name: Ravu Sopi | Email: ravu.sopi@example.com | Type: Technician | Speciality: Networks and ICT
+
+[main menu displayed]
+Enter choice (1-14): 1
+User ID: ADMIN001
+First name: Samuel
+Last name: Gari
+Email: samuel.gari@example.com
+User type:
+  1. Student
+  2. Staff
+  3. Service Officer
+  4. Technician
+  5. Administrator
+Choose [Student]: 5
+User registered: ID: ADMIN001 | Name: Samuel Gari | Email: samuel.gari@example.com | Type: Administrator
+
+[main menu displayed]
+Enter choice (1-14): 2
+Your user ID: DWU2026001
+Title: Unable to access campus Wi-Fi
+Description: Cannot connect to Wi-Fi from the library
+Campus location: Library Level 2
+Category:
+  1. ICT Support
+  2. Facilities Maintenance
+  3. Cleaning and Sanitation
+  4. General Campus Service
+Choose: 1
+Priority:
+  1. Low
+  2. Normal
+  3. High
+  4. Urgent
+Choose [Normal]: 3
+Details for ICT Support:
+Device type: Laptop
+System name: Campus Wi-Fi
+Fault type: Connection failure
+Network impact:
+  1. None
+  2. Single User
+  3. Department
+  4. Campus-wide
+Choose [None]: 3
+Request submitted with ID REQ001 (status: Submitted).
+
+[main menu displayed]
+Enter choice (1-14): 3
+Request ID: REQ001
+
+Request ID : REQ001
+Requester  : Mary Kila (DWU2026001)
+Title      : Unable to access campus Wi-Fi
+Description: Cannot connect to Wi-Fi from the library
+Location   : Library Level 2
+Category   : ICT Support
+Priority   : High
+Status     : Submitted
+Technician : Not assigned
+Submitted  : 9/21/2026, 7:36:35 PM
+Updated    : 9/21/2026, 7:36:35 PM
+Request Type      : ICT Support Request
+Device Type       : Laptop
+System Name       : Campus Wi-Fi
+Fault Type        : Connection failure
+Network Impact    : Department
+Priority Score    : 45
+Target Resolution : 8 hours
+
+History:
+  [9/21/2026, 7:36:35 PM] Submit Request: None -> Submitted by DWU2026001 (Student) - Request submitted.
+
+[main menu displayed]
+Enter choice (1-14): 4
+Your user ID: DWU2026001
+
+Request ID : REQ001
+Requester  : Mary Kila (DWU2026001)
+Title      : Unable to access campus Wi-Fi
+Description: Cannot connect to Wi-Fi from the library
+Location   : Library Level 2
+Category   : ICT Support
+Priority   : High
+Status     : Submitted
+Technician : Not assigned
+Submitted  : 9/21/2026, 7:36:35 PM
+Updated    : 9/21/2026, 7:36:35 PM
+Request Type      : ICT Support Request
+Device Type       : Laptop
+System Name       : Campus Wi-Fi
+Fault Type        : Connection failure
+Network Impact    : Department
+Priority Score    : 45
+Target Resolution : 8 hours
+
+1 request(s) shown.
+
+[main menu displayed]
+Enter choice (1-14): 10
+Goodbye.

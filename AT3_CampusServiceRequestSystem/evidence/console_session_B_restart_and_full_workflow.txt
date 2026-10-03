@@ -1,0 +1,176 @@
+Loaded 4 user(s), 1 request(s) and 5 audit entries from <project folder>/data
+
+============================================
+   CAMPUS SERVICE REQUEST SYSTEM
+============================================
+1. Register User
+2. Submit Service Request
+3. View Request by ID
+4. View My Requests
+5. View All Requests
+6. Update My Request
+7. Cancel My Request
+8. Search Requests
+9. View Request Summary
+10. Exit
+--------------------------------------------
+11. Service Officer Menu
+12. Technician Menu
+13. Filter and Sort Requests
+14. Administrator Menu
+============================================
+Enter choice (1-14): 11
+Your Service Officer user ID: OFFICER001
+
+--- SERVICE OFFICER MENU ---
+1. List Submitted requests waiting for review
+2. Review a request
+3. Set request priority (request must be Reviewed)
+4. Assign a Technician (request must be Reviewed)
+5. Verify and close a Resolved request
+6. Back to main menu
+Choose (1-6): 1
+
+ID       Priority Status      Category                 Title
+REQ001   High     Submitted   ICT Support              Unable to access campus Wi-Fi
+
+1 request(s) shown.
+
+--- SERVICE OFFICER MENU ---
+[menu displayed]
+Choose (1-6): 2
+Request ID: REQ001
+Comment (optional): Looks like an access point fault
+Request REQ001 is now Reviewed.
+
+--- SERVICE OFFICER MENU ---
+[menu displayed]
+Choose (1-6): 3
+Request ID: REQ001
+New priority:
+  1. Low
+  2. Normal
+  3. High
+  4. Urgent
+Choose: 4
+Comment (optional): Whole floor affected
+Request REQ001 priority is now Urgent.
+
+--- SERVICE OFFICER MENU ---
+[menu displayed]
+Choose (1-6): 4
+Registered Technicians:
+  TECH001 - Ravu Sopi (Networks and ICT)
+Request ID: REQ001
+Technician user ID: TECH001
+Comment (optional): 
+Request REQ001 is now Assigned, assigned to Ravu Sopi.
+
+--- SERVICE OFFICER MENU ---
+[menu displayed]
+Choose (1-6): 6
+
+[main menu displayed]
+Enter choice (1-14): 12
+Your Technician user ID: TECH001
+
+--- TECHNICIAN MENU ---
+1. View my assigned requests
+2. Start work on a request
+3. Add a progress note
+4. Resolve a request
+5. Back to main menu
+Choose (1-5): 1
+
+ID       Priority Status      Category                 Title
+REQ001   Urgent   Assigned    ICT Support              Unable to access campus Wi-Fi
+
+1 request(s) shown.
+
+--- TECHNICIAN MENU ---
+[menu displayed]
+Choose (1-5): 2
+Request ID: REQ001
+Comment (optional): 
+Request REQ001 is now In Progress.
+
+--- TECHNICIAN MENU ---
+[menu displayed]
+Choose (1-5): 3
+Request ID: REQ001
+Progress note: Checking the access point on Level 2
+Progress note recorded.
+
+--- TECHNICIAN MENU ---
+[menu displayed]
+Choose (1-5): 4
+Request ID: REQ001
+Comment (optional): Access point replaced
+Request REQ001 is now Resolved.
+
+--- TECHNICIAN MENU ---
+[menu displayed]
+Choose (1-5): 5
+
+[main menu displayed]
+Enter choice (1-14): 11
+Your Service Officer user ID: OFFICER001
+
+--- SERVICE OFFICER MENU ---
+[menu displayed]
+Choose (1-6): 5
+Request ID: REQ001
+Comment (optional): Confirmed working with the requester
+Request REQ001 is now Closed.
+
+--- SERVICE OFFICER MENU ---
+[menu displayed]
+Choose (1-6): 6
+
+[main menu displayed]
+Enter choice (1-14): 3
+Request ID: REQ001
+
+Request ID : REQ001
+Requester  : Mary Kila (DWU2026001)
+Title      : Unable to access campus Wi-Fi
+Description: Cannot connect to Wi-Fi from the library
+Location   : Library Level 2
+Category   : ICT Support
+Priority   : Urgent
+Status     : Closed
+Technician : Ravu Sopi (TECH001)
+Submitted  : 9/21/2026, 7:36:35 PM
+Updated    : 9/21/2026, 7:36:45 PM
+Request Type      : ICT Support Request
+Device Type       : Laptop
+System Name       : Campus Wi-Fi
+Fault Type        : Connection failure
+Network Impact    : Department
+Priority Score    : 55
+Target Resolution : 4 hours
+
+History:
+  [9/21/2026, 7:36:35 PM] Submit Request: None -> Submitted by DWU2026001 (Student) - Request submitted.
+  [9/21/2026, 7:36:38 PM] Review Request: Submitted -> Reviewed by OFFICER001 (Service Officer) - Looks like an access point fault
+  [9/21/2026, 7:36:39 PM] Set Priority: Reviewed -> Reviewed by OFFICER001 (Service Officer) - Priority changed from High to Urgent. Whole floor affected
+  [9/21/2026, 7:36:40 PM] Assign Technician: Reviewed -> Assigned by OFFICER001 (Service Officer) - Assigned to Ravu Sopi (TECH001).
+  [9/21/2026, 7:36:42 PM] Start Work: Assigned -> In Progress by TECH001 (Technician) - Work started.
+  [9/21/2026, 7:36:43 PM] Progress Note: In Progress -> In Progress by TECH001 (Technician) - Checking the access point on Level 2
+  [9/21/2026, 7:36:44 PM] Resolve Request: In Progress -> Resolved by TECH001 (Technician) - Access point replaced
+  [9/21/2026, 7:36:45 PM] Close Request: Resolved -> Closed by OFFICER001 (Service Officer) - Confirmed working with the requester
+
+[main menu displayed]
+Enter choice (1-14): 8
+Search text: wifi
+No matching requests.
+
+[main menu displayed]
+Enter choice (1-14): 9
+
+Requests by status:
+  Closed       1
+
+[main menu displayed]
+Enter choice (1-14): 10
+Goodbye.
