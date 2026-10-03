@@ -1,0 +1,120 @@
+[
+  {
+    "requestId": "REQ001",
+    "requestType": "ICTSupportRequest",
+    "requesterId": "DWU2026001",
+    "title": "Unable to access campus Wi-Fi",
+    "description": "Cannot connect to Wi-Fi from the library.",
+    "location": "Library Level 2",
+    "category": "ICT Support",
+    "priority": "High",
+    "status": "Assigned",
+    "assignedTechnicianId": "TECH001",
+    "dateSubmitted": "2026-09-21T09:30:42.612Z",
+    "dateUpdated": "2026-09-21T09:30:42.613Z",
+    "details": {
+      "deviceType": "Laptop",
+      "systemName": "Campus Wi-Fi",
+      "faultType": "Connection failure",
+      "networkImpact": "Department"
+    }
+  },
+  {
+    "requestId": "REQ002",
+    "requestType": "MaintenanceRequest",
+    "requesterId": "STAFF001",
+    "title": "Leaking tap in staff lounge",
+    "description": "Water is dripping onto the floor.",
+    "location": "Building A",
+    "category": "Facilities Maintenance",
+    "priority": "Urgent",
+    "status": "Resolved",
+    "assignedTechnicianId": "TECH002",
+    "dateSubmitted": "2026-09-21T09:30:42.613Z",
+    "dateUpdated": "2026-09-21T09:30:42.614Z",
+    "details": {
+      "building": "Building A",
+      "roomNumber": "12",
+      "hazardLevel": "Medium",
+      "equipmentAffected": "Kitchen tap"
+    }
+  },
+  {
+    "requestId": "REQ003",
+    "requestType": "CleaningRequest",
+    "requesterId": "DWU2026002",
+    "title": "Spill in cafeteria",
+    "description": "Juice spilled near the entrance.",
+    "location": "Cafeteria",
+    "category": "Cleaning and Sanitation",
+    "priority": "High",
+    "status": "Submitted",
+    "assignedTechnicianId": null,
+    "dateSubmitted": "2026-09-21T09:30:42.614Z",
+    "dateUpdated": "2026-09-21T09:30:42.614Z",
+    "details": {
+      "cleaningArea": "Cafeteria entrance",
+      "hygieneRisk": "High",
+      "serviceType": "Spill Response",
+      "preferredServiceTime": "12:30"
+    }
+  },
+  {
+    "requestId": "REQ004",
+    "requestType": "GeneralServiceRequest",
+    "requesterId": "STAFF001",
+    "title": "Extra chairs for seminar",
+    "description": "Need 20 more chairs.",
+    "location": "Lecture Theatre 2",
+    "category": "General Campus Service",
+    "priority": "Low",
+    "status": "Cancelled",
+    "assignedTechnicianId": null,
+    "dateSubmitted": "2026-09-21T09:30:42.614Z",
+    "dateUpdated": "2026-09-21T09:30:42.614Z",
+    "details": {
+      "serviceType": "Furniture setup",
+      "expectedOutcome": "20 chairs delivered before 9am"
+    }
+  },
+  {
+    "requestId": "REQ005",
+    "requestType": "ICTSupportRequest",
+    "requesterId": "DWU2026002",
+    "title": "Projector not working",
+    "description": "No image from the projector.",
+    "location": "Lecture Theatre 3",
+    "category": "ICT Support",
+    "priority": "Normal",
+    "status": "Closed",
+    "assignedTechnicianId": "TECH001",
+    "dateSubmitted": "2026-09-21T09:30:42.614Z",
+    "dateUpdated": "2026-09-21T09:30:42.614Z",
+    "details": {
+      "deviceType": "Projector",
+      "systemName": "HDMI display",
+      "faultType": "No signal",
+      "networkImpact": "Single User"
+    }
+  },
+  {
+    "requestId": "REQ006",
+    "requestType": "ICTSupportRequest",
+    "requesterId": "STAFF001",
+    "title": "Computer lab PCs will not start",
+    "description": "All PCs in Lab 3 fail to boot.",
+    "location": "Lab 3",
+    "category": "ICT Support",
+    "priority": "High",
+    "status": "Assigned",
+    "assignedTechnicianId": "TECH001",
+    "dateSubmitted": "2026-09-16T08:00:00.000Z",
+    "dateUpdated": "2026-09-16T10:00:00.000Z",
+    "details": {
+      "deviceType": "Desktop PC",
+      "systemName": "Windows lab image",
+      "faultType": "Fails to boot",
+      "networkImpact": "Department"
+    }
+  }
+]

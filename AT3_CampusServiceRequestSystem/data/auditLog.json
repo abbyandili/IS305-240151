@@ -1,0 +1,245 @@
+[
+  {
+    "auditId": "AUD0001",
+    "actorId": "DWU2026001",
+    "action": "Register User",
+    "requestId": null,
+    "description": "Register DWU2026001.",
+    "timestamp": "2026-09-21T09:30:42.612Z",
+    "outcome": "Success"
+  },
+  {
+    "auditId": "AUD0002",
+    "actorId": "DWU2026002",
+    "action": "Register User",
+    "requestId": null,
+    "description": "Register DWU2026002.",
+    "timestamp": "2026-09-21T09:30:42.612Z",
+    "outcome": "Success"
+  },
+  {
+    "auditId": "AUD0003",
+    "actorId": "STAFF001",
+    "action": "Register User",
+    "requestId": null,
+    "description": "Register STAFF001.",
+    "timestamp": "2026-09-21T09:30:42.612Z",
+    "outcome": "Success"
+  },
+  {
+    "auditId": "AUD0004",
+    "actorId": "OFFICER001",
+    "action": "Register User",
+    "requestId": null,
+    "description": "Register OFFICER001.",
+    "timestamp": "2026-09-21T09:30:42.612Z",
+    "outcome": "Success"
+  },
+  {
+    "auditId": "AUD0005",
+    "actorId": "TECH001",
+    "action": "Register User",
+    "requestId": null,
+    "description": "Register TECH001.",
+    "timestamp": "2026-09-21T09:30:42.612Z",
+    "outcome": "Success"
+  },
+  {
+    "auditId": "AUD0006",
+    "actorId": "TECH002",
+    "action": "Register User",
+    "requestId": null,
+    "description": "Register TECH002.",
+    "timestamp": "2026-09-21T09:30:42.612Z",
+    "outcome": "Success"
+  },
+  {
+    "auditId": "AUD0007",
+    "actorId": "ADMIN001",
+    "action": "Register User",
+    "requestId": null,
+    "description": "Register ADMIN001.",
+    "timestamp": "2026-09-21T09:30:42.612Z",
+    "outcome": "Success"
+  },
+  {
+    "auditId": "AUD0008",
+    "actorId": "DWU2026001",
+    "action": "Create Request",
+    "requestId": "REQ001",
+    "description": "Create request REQ001.",
+    "timestamp": "2026-09-21T09:30:42.613Z",
+    "outcome": "Success"
+  },
+  {
+    "auditId": "AUD0009",
+    "actorId": "OFFICER001",
+    "action": "Review Request",
+    "requestId": "REQ001",
+    "description": "Review request REQ001.",
+    "timestamp": "2026-09-21T09:30:42.613Z",
+    "outcome": "Success"
+  },
+  {
+    "auditId": "AUD0010",
+    "actorId": "OFFICER001",
+    "action": "Assign Technician",
+    "requestId": "REQ001",
+    "description": "Assign TECH001 to request REQ001.",
+    "timestamp": "2026-09-21T09:30:42.613Z",
+    "outcome": "Success"
+  },
+  {
+    "auditId": "AUD0011",
+    "actorId": "STAFF001",
+    "action": "Create Request",
+    "requestId": "REQ002",
+    "description": "Create request REQ002.",
+    "timestamp": "2026-09-21T09:30:42.613Z",
+    "outcome": "Success"
+  },
+  {
+    "auditId": "AUD0012",
+    "actorId": "OFFICER001",
+    "action": "Review Request",
+    "requestId": "REQ002",
+    "description": "Review request REQ002.",
+    "timestamp": "2026-09-21T09:30:42.613Z",
+    "outcome": "Success"
+  },
+  {
+    "auditId": "AUD0013",
+    "actorId": "OFFICER001",
+    "action": "Set Priority",
+    "requestId": "REQ002",
+    "description": "Set priority of REQ002 to Urgent.",
+    "timestamp": "2026-09-21T09:30:42.613Z",
+    "outcome": "Success"
+  },
+  {
+    "auditId": "AUD0014",
+    "actorId": "OFFICER001",
+    "action": "Assign Technician",
+    "requestId": "REQ002",
+    "description": "Assign TECH002 to request REQ002.",
+    "timestamp": "2026-09-21T09:30:42.613Z",
+    "outcome": "Success"
+  },
+  {
+    "auditId": "AUD0015",
+    "actorId": "TECH002",
+    "action": "Start Work",
+    "requestId": "REQ002",
+    "description": "Start work on request REQ002.",
+    "timestamp": "2026-09-21T09:30:42.613Z",
+    "outcome": "Success"
+  },
+  {
+    "auditId": "AUD0016",
+    "actorId": "TECH002",
+    "action": "Progress Note",
+    "requestId": "REQ002",
+    "description": "Add progress note to request REQ002.",
+    "timestamp": "2026-09-21T09:30:42.613Z",
+    "outcome": "Success"
+  },
+  {
+    "auditId": "AUD0017",
+    "actorId": "TECH002",
+    "action": "Resolve Request",
+    "requestId": "REQ002",
+    "description": "Resolve request REQ002.",
+    "timestamp": "2026-09-21T09:30:42.614Z",
+    "outcome": "Success"
+  },
+  {
+    "auditId": "AUD0018",
+    "actorId": "DWU2026002",
+    "action": "Create Request",
+    "requestId": "REQ003",
+    "description": "Create request REQ003.",
+    "timestamp": "2026-09-21T09:30:42.614Z",
+    "outcome": "Success"
+  },
+  {
+    "auditId": "AUD0019",
+    "actorId": "STAFF001",
+    "action": "Create Request",
+    "requestId": "REQ004",
+    "description": "Create request REQ004.",
+    "timestamp": "2026-09-21T09:30:42.614Z",
+    "outcome": "Success"
+  },
+  {
+    "auditId": "AUD0020",
+    "actorId": "STAFF001",
+    "action": "Cancel Request",
+    "requestId": "REQ004",
+    "description": "Cancel request REQ004.",
+    "timestamp": "2026-09-21T09:30:42.614Z",
+    "outcome": "Success"
+  },
+  {
+    "auditId": "AUD0021",
+    "actorId": "DWU2026002",
+    "action": "Create Request",
+    "requestId": "REQ005",
+    "description": "Create request REQ005.",
+    "timestamp": "2026-09-21T09:30:42.614Z",
+    "outcome": "Success"
+  },
+  {
+    "auditId": "AUD0022",
+    "actorId": "OFFICER001",
+    "action": "Review Request",
+    "requestId": "REQ005",
+    "description": "Review request REQ005.",
+    "timestamp": "2026-09-21T09:30:42.614Z",
+    "outcome": "Success"
+  },
+  {
+    "auditId": "AUD0023",
+    "actorId": "OFFICER001",
+    "action": "Assign Technician",
+    "requestId": "REQ005",
+    "description": "Assign TECH001 to request REQ005.",
+    "timestamp": "2026-09-21T09:30:42.614Z",
+    "outcome": "Success"
+  },
+  {
+    "auditId": "AUD0024",
+    "actorId": "TECH001",
+    "action": "Start Work",
+    "requestId": "REQ005",
+    "description": "Start work on request REQ005.",
+    "timestamp": "2026-09-21T09:30:42.614Z",
+    "outcome": "Success"
+  },
+  {
+    "auditId": "AUD0025",
+    "actorId": "TECH001",
+    "action": "Resolve Request",
+    "requestId": "REQ005",
+    "description": "Resolve request REQ005.",
+    "timestamp": "2026-09-21T09:30:42.614Z",
+    "outcome": "Success"
+  },
+  {
+    "auditId": "AUD0026",
+    "actorId": "OFFICER001",
+    "action": "Close Request",
+    "requestId": "REQ005",
+    "description": "Close request REQ005.",
+    "timestamp": "2026-09-21T09:30:42.614Z",
+    "outcome": "Success"
+  },
+  {
+    "auditId": "AUD0027",
+    "actorId": "STAFF001",
+    "action": "Create Request",
+    "requestId": "REQ006",
+    "description": "Create request REQ006.",
+    "timestamp": "2026-09-21T09:30:42.614Z",
+    "outcome": "Success"
+  }
+]
